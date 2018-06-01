@@ -1,0 +1,418 @@
+.text-logo{color: #fff; text-transform: uppercase;text-decoration: none; margin-bottom: 0px }
+.dashboard-text-logo{color: #4C4A49; text-transform: uppercase;text-decoration: none; margin-bottom: 0px }
+.login{background: rgba(27, 188, 155, 0.5) url("../../../img/golf-bg-1.jpg") no-repeat fixed center top / cover }
+.help-block.err{color:red;}
+a{outline: none}
+body.dashboard-page{min-height: 100%}
+#content-footer.affix{z-index: 9}
+.group-prod-sec, .attribsec{display: none}
+#loader {
+    display:    none;
+    position:   fixed;
+    z-index:    99999;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+    url('../../../img/loader.gif')
+    50% 50%
+    no-repeat;
+}
+.admin-form .zero-padding{
+    padding: 0 0 0 0;
+}
+.order-details-table tbody > tr > td{
+    vertical-align: top;
+    text-align: left;
+    line-height:25px;
+}
+.admin-form .dashboard-panel-heading{
+    padding:0px 8px 0px 10px;
+}
+.admin-form .dashboard-panel-body{
+    padding:0px 0px 0px 0px;
+}
+.child-product-title{
+    background: #FFF;
+    color: #000;
+}
+.control-check{
+    padding-top: 10px;
+}
+.clmr{clear: both; margin: 15px}
+#secound-hire-block .container-fluid .col-sm-3 ul li button{border: 1px solid #000;padding:8px 10px;}
+#secound-hire-block .container-fluid .col-sm-3 ul li button.active{background-color:#fff;color:#e5ab2c;text-align:left;position:relative;padding-left:26px;border-color:#fec654;}
+#secound-hire-block .container-fluid .col-sm-3 ul li button.active:after{content:'';width:12px;height:8px;position:absolute;left:7px;top:9px;border-bottom:3px solid #fec654;border-left:solid 3px #fec654;transform:rotate(-45deg);}
+
+.number-spinner .input-prepend{width: 40%; float: left; position: relative}
+.number-spinner .input-box{width: 20%; float: left; position: relative}
+.number-spinner .input-append{width: 40%; float: left; position: relative}
+
+/*Booking Calendar*/
+
+.bookedProEvent{
+    background: #5fba7d;
+    color: #000;
+}
+
+.booking_div_parent{
+    position:relative;
+    padding:10px;
+    background: #8bb953;
+    border: 1px solid;
+}
+.booking_div_parent_yellow{
+    position:relative;
+    padding:5px;
+    background: yellow;
+    border: 1px solid;
+}
+.booking_details{
+    position:absolute;
+    right:0;
+    top:80%;
+    z-index:22;
+    background:#eee;
+    border:solid 1px #999;
+    min-width:200px;
+    padding:10px;
+    box-shadow:2px 2px 3px 0px rgba(0,0,0,0.3);
+    min-width: 325px;
+}
+.booking-text .fa{
+    position:absolute;
+    right:5px;
+    top:8px;
+    display:inline-block;
+    padding-top:2px;
+    border-radius:50%;
+    height:20px;
+    width:20px;
+    background:#fff;
+    text-align:center;
+}
+.booking-table table{
+    width:100%;
+}
+.booking-table td{
+    padding:0 0 10px !important;
+    background: transparent;
+}
+.booking_div_parent p{
+    margin:0;
+}
+
+.booking-weeks-1 td{
+    width:14.28571428571429%;
+}
+.booking-weeks-2 td{
+    /*width:7.1428%;*/
+}
+.booking-weeks-3 td{
+    width:4.761904761904762%;
+}
+.booking-weeks-4 td{
+    width:3.571428571428571%;
+}
+.booking-weeks-5 td{
+    width:2.857142857142857%;
+}
+.booking-weeks-6 td{
+    width:2.380952380952381%;
+}
+.booking-weeks-7 td{
+    width:2.040816326530612%;
+}
+.booking-weeks-8 td{
+    width:1.785714285714286%;
+}
+
+table.tc-checkbox-1 tbody td:first-child td{text-align:left;}
+
+@media (max-width:1060px) {
+     .booking-calendar-view{width:100%;overflow-y:hidden;overflow-x:auto;margin-bottom: 14.25px;}
+     .booking-calendar-view > table{min-width:1000px;}
+}
+.text-left.upper-case.item-heading{
+     text-transform: uppercase;
+     padding-left:20px;
+}
+.text-left.upper-case.days-colmns{
+     padding-left:20px;
+     text-transform: uppercase;
+}
+
+.booking-text .info-booking-fill{
+    position:absolute;
+    right:5px;
+    top:8px;
+    display:inline-block;
+    padding-top:2px;
+    border-radius:50%;
+    height:20px;
+    width:20px;
+    background:#26C281;
+    text-align:center;
+    color:#fff;
+}
+.booking-weeksdays >table > thead > tr > td{
+    text-align:center;
+    white-space: nowrap;
+}
+.booking-calendar-view table{
+    width:100%;
+    table-layout:fixed;
+}
+.calendar-weeks-1, .calendar-weeks-2, .calendar-weeks-3, .calendar-weeks-4, .calendar-weeks-5, .calendar-weeks-6, .calendar-weeks-7, .calendar-weeks-8{width:100%;overflow-y: hidden;overflow-x: auto;margin-bottom: 14.25px;}
+
+.calendar-weeks-1 > table{min-width:700px;max-width:none;}
+.calendar-weeks-2 > table{min-width:900px;max-width:none;}
+.calendar-weeks-3 > table{min-width:1300px;max-width:none;}
+.calendar-weeks-4 > table{min-width:2000px;max-width:none;}
+.calendar-weeks-5 > table{min-width:2600px;max-width:none;}
+.calendar-weeks-6 > table{min-width:3200px;max-width:none;}
+.calendar-weeks-7 > table{min-width:3800px;max-width:none;}
+.calendar-weeks-8 > table{min-width:4400px;max-width:none;}
+.bottom-ftr.empty-cart span{width: 100%; padding: 20px; text-align: center; font-size: 24px; color: red}
+#infomodal .modal-title{color: black}
+#info-msg{color: #0a5d5e}
+.insurance{padding-bottom: 10px}
+.insurance h4{color: black; font-weight: 700; margin-bottom: 20px}
+.insurance-opt{padding: 10px 20px; text-align: center; text-decoration: none; color: black; border: 1px solid #000}
+.insurance-opt.active{background-color: #90B159; color: white; border: 0px; text-decoration: none;}
+.insurance-opt:hover{text-decoration: none}
+/*
+* Front End Partner
+*/
+.sign-in { border: none;
+}
+.sign-in .panel-heading {
+    color: #fff;
+    background-color: #e5ab2c;
+    border-color: #e5ab2c;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+.sign-in div h4{
+    font-size: 20px;
+    color: #000;
+    letter-spacing: 1px;
+    position: relative;
+    margin: 20px 0
+}
+.sign-in div h4::after {
+    content: "";
+    position: absolute;
+    width: 84px;
+    height: 2px;
+    background: #e5ab2c;
+    bottom: -8px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    border-radius: 4px
+}
+.sign-in .panel-body div input {
+    height: 44px;
+}
+.sign-in .panel-body .form-group {
+    margin-bottom: 25px;
+}
+.sign-in .panel-footer {
+    background-color: transparent;
+    border-top: 1px solid transparent;
+}
+.panel-footer .btn-primary {
+    background: #e5ab2c;
+    border: none;
+    color: #fff;
+    padding: 10px 25px;
+    letter-spacing: 1px;
+    line-height: 1em;
+    height: auto;
+    border-radius: 4px
+}
+.panel-footer .btn-primary:hover,.panel-footer .btn-primary:focus {
+    opacity:0.7;
+    background: #e5ab2c;
+}
+.sign-in label{
+    padding-top:5px;
+    font-weight:500
+}
+.admin-form .panel-info.heading-border::before, .admin-form .panel-info .heading-border::before {
+    background-color: #e5ab2c;
+}
+
+.admin-form .panel-info > .panel-heading {
+    border-top-color: #e5ab2c;
+}
+.admin-form .switch-primary > input:checked + label {
+    background: #e5ab2c;
+    border-color: #e5ab2c;
+}
+.modal-title{color: #000}
+.frontend-primary-btn.btn-info{ background-color: #e5ab2c; border-color: #e5ab2c}
+form.search-form input{width: 23%}
+.search-form select{width: 35%}
+.datepicker table tr td.day, .datepicker table tr td.day:hover{
+color: #000;
+}
+.datepicker table tr td.disabled.day, .datepicker table tr td.disabled.day:hover{
+    color: #999;
+}
+.datepicker table tr td.active.day, .datepicker table tr td.active.day:hover{
+    color: #fff;
+}
+.product-panel .row{margin-top: 10px}
+.wrapper {
+    background: white;
+    margin: auto;
+    padding: 1em;
+    width: 100%;
+}
+h1 {
+    text-align: center;
+}
+ul.tabs {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+ul.tabs li:first-child{
+    margin-left: 0.25em;
+}
+ul.tabs li:last-child{
+    margin-right: 0em;
+}
+ul.tabs li {
+    width: 24%;
+    text-align: center;
+    border-radius: 8px;
+    border-bottom: none;
+    float: left;
+    margin: 0 .25em 0 0;
+    padding: .25em .5em;
+    background-color: black;
+}
+ul.tabs li a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+ul.tabs li.active {
+    background: #000;
+}
+ul.tabs li.active a {
+    color: #e5ab2c;
+}
+.clr {
+    clear: both;
+}
+article {
+    padding: 1em;
+}
+.black-content{color: #000000}
+
+.masonry {
+    margin: 1.5em 0;
+    padding: 0;
+    -moz-column-gap: 1.5em;
+    -webkit-column-gap: 1.5em;
+    column-gap: 1.5em;
+    font-size: .85em;
+}
+
+.grid-item {
+    display: inline-block;
+    background: #fff;
+    padding: 1em;
+    margin: 0 0 1.5em;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-shadow: 2px 2px 4px 0 #ccc;
+}
+.product-panel span.hidden-desc{display: none}
+.clear-btn{background-color: #000000; color: #ffffff}
+.clear-btn:hover{color: #e5ab2c}
+.social-links li a {
+    font-size: 40px
+}
+.social-links li {
+    float: left;
+	margin-right:5px
+}
+.social-links li a:hover {
+    background:none !important
+}
+.footer-nav{
+	padding:0;
+	list-style-type:none
+}
+.footer-nav li a {
+    display: block;
+    padding: 4px 0px 5px 0;
+    text-decoration: none;
+	color:#fff;
+	font-size: 14px
+}
+footer .container .row .col-md-3 form .form-group{margin-bottom:5px}
+footer .col-sm-3 h2 {
+    font-size: 17px
+}
+footer .col-sm-3 p {
+    font-size: 14px;
+}
+
+.product-panel h3{font-size:20px;}
+.payopt {border:solid 1px #e5ab2c;border-radius:6px;text-align:center;cursor:pointer;}
+.payopt .btn{border-radius:5px 5px 0 0;margin-bottom:10px;display:block;width:100%;float:none;}
+.payopt img{cursor:pointer;}
+
+@media only screen and (min-width: 400px) {
+    .masonry {
+        -moz-column-count: 2;
+        -webkit-column-count: 2;
+        column-count: 2;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .masonry {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+    }
+}
+
+@media only screen and (min-width: 900px) {
+    .masonry {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+    }
+    .modal-dialog{
+        width: 800px;
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    .masonry {
+        -moz-column-count: 3;
+        -webkit-column-count: 3;
+        column-count: 3;
+    }
+}
+
+@media (max-width:800px) and (min-width:768px) {
+	header .container {width: 100%;}
+	header .container .container-fluid{padding:0;}
+	.navbar-header{width:17%;}
+	.navbar-collapse{width:83%;}
+	.navbar-nav{margin-right:15px;padding-right:15px;}
+	.top-social-links{position:absolute;right:10px;}
+}
+
