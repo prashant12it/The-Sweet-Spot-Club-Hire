@@ -38,7 +38,7 @@
  <div style="">
     <a href="{{$getSiteUrl.'/partner_pro/'.$partner_ref.'/'.$bannerDetails->banner_reference_id}}" target="_blank" title="{{$bannerDetails->title}}">
         @if ($bannerDetails->banner_type == 0)
-        <img src="{{$getSiteUrl.'/../banners_img/'.$bannerDetails->file_name}}" alt="The Sweet Spot Club Hire" width="{{$bannerDetails->width}}" height="{{$bannerDetails->height}}">
+        <img src="{{$getSiteUrl.'/public/banners_img/'.$bannerDetails->file_name}}" alt="The Sweet Spot Club Hire" width="{{$bannerDetails->width}}" height="{{$bannerDetails->height}}">
             @else
             {{$bannerDetails->title}}
             @endif

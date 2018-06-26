@@ -201,7 +201,8 @@ function removeBannerImage(){
 function viewOrignalBanner(bannerName,width,height,title){
     if(bannerName && width>0){
         $('#viewOrignalBanner .modal-body h4').remove();
-        var imageUrl = window.location.protocol + "//" + window.location.host + "/public/banners_img/"+bannerName;
+        $('#viewOrignalBanner .modal-body').html('<img id="banner_view" />');
+        var imageUrl = window.location.protocol + "//" + window.location.host + "/shop/public/banners_img/"+bannerName;
         $("#banner_view").attr("src","");
         $("#banner_view").attr("src",imageUrl);
         $("#banner_view").attr("width",width);
