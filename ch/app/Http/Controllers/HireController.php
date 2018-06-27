@@ -431,6 +431,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
     public function getProductPriceByHireDays($hireDays)
     {
         $PricingList = Config::get('constants.HireDaysPricing');
+        $AdditionalPrice = Config::get('constants.AdditionalPrice');
         $stateid = session()->get('states');
 
         $prodPrice = 0;
@@ -439,7 +440,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         }elseif ($hireDays > 0 && $hireDays < 8) {
             $prodPrice = $PricingList[$hireDays];
         } elseif ($hireDays > 7) {
-            $prodPrice = $PricingList['7'] + (($hireDays - 7) * 15);
+            $prodPrice = $PricingList['7'] + (($hireDays - 7) * $AdditionalPrice);
         }
 
         return $prodPrice;
