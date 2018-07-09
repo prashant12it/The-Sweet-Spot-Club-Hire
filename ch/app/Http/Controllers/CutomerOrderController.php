@@ -1725,7 +1725,7 @@ class CutomerOrderController extends Controller
 
                                 $mandrillDataArr = array();
 
-                                $mandrillDataArr['username'] = $checkOrderExist->user_name;
+                                $mandrillDataArr['username'] = $orderDetails->buyer_first_name;
                                 $mandrillDataArr['useremail'] = $checkOrderExist->user_email;
                                 $mandrillDataArr['orderDetail'] = $MandrillOrderData;
                                 $mandrillDataArr['templateName'] = '1st email Customer Purchase';
@@ -2158,7 +2158,7 @@ class CutomerOrderController extends Controller
 
                                 $mandrillDataArr = array();
 
-                                $mandrillDataArr['username'] = $checkOrderExist->user_name;
+                                $mandrillDataArr['username'] = $orderDetails->buyer_first_name;
                                 $mandrillDataArr['useremail'] = $checkOrderExist->user_email;
                                 $mandrillDataArr['orderDetail'] = $MandrillOrderData;
                                 $mandrillDataArr['templateName'] = '1st email Customer Purchase';
