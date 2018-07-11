@@ -529,11 +529,12 @@ class CutomerOrderController extends Controller
             $updateOrderAmount['offer_amnt'] = ($totalDiscountAmount);
             $updateOrderAmount['tss'] = ($tssDiscountAmount);
             $updateOrderAmount['sub_total_amnt'] = (($totalProductAmount - $tssDiscountAmount - $updateOrderAmount['partner_discount_amnt']) + $insuranceAmount + $shippingAmount);
-            if ($request->shipping_amnt > 0) {
-                $updateOrderAmount['shipping_amnt'] = $request->shipping_amnt;
+            $request->pickup = $request->pickup_postal_code;
+            $request->dropoff = $request->delvr_postal_code;
+
+                $updateOrderAmount['shipping_amnt'] = ($this->hire->calculateshipping($request)>0?$this->hire->calculateshipping($request):0);
                 $orderTotalAmount = $orderTotalAmount + $request->shipping_amnt;
-            }
-            $updateOrderAmount['total_amnt'] = $orderTotalAmount - $tssDiscountAmount - $updateOrderAmount['partner_discount_amnt'];
+                $updateOrderAmount['total_amnt'] = $orderTotalAmount - $tssDiscountAmount - $updateOrderAmount['partner_discount_amnt'];
 
             DB::table($DBTables['Pre_Orders'])
                 ->where('order_reference_id', '=', $order_reference_id)
