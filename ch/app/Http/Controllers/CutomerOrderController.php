@@ -372,7 +372,7 @@ class CutomerOrderController extends Controller
 
             $tssDiscountPercentage = Config::get('constants.TssDiscount');
             $DBTables = Config::get('constants.DbTables');
-
+            $paidItemsCount = 0;
             $totalProductAmount = 0;
             $offerAmount = 0;
             $shippingAmount = 0.00;
@@ -438,6 +438,9 @@ class CutomerOrderController extends Controller
             if (count($productPrices) > 0) {
                 foreach ($productPrices as $eachProPrice) {
                     $totalProductAmount = $totalProductAmount + $eachProPrice->sub_total_amnt;
+                    if($eachProPrice->sub_total_amnt>0){
+                        $paidItemsCount++;
+                    }
                 }
             }
             $totalProductAmount = $this->hire->getMultiSetDiscountedPrice($totalSets, $totalProductAmount);
@@ -526,15 +529,15 @@ class CutomerOrderController extends Controller
             }
 
             $tssDiscountAmount = ($totalProductAmount * $tssDiscountPercentage * 0.01);
-            $updateOrderAmount['offer_amnt'] = ($totalDiscountAmount);
+            $updateOrderAmount['offer_amnt'] = ($offerAmount);
             $updateOrderAmount['tss'] = ($tssDiscountAmount);
-            $updateOrderAmount['sub_total_amnt'] = (($totalProductAmount - $tssDiscountAmount - $updateOrderAmount['partner_discount_amnt']) + $insuranceAmount + $shippingAmount);
+            $updateOrderAmount['sub_total_amnt'] = (($totalProductAmount - $offerAmount - $tssDiscountAmount - $updateOrderAmount['partner_discount_amnt']) + $insuranceAmount + $shippingAmount);
             $request->pickup = $request->pickup_postal_code;
             $request->dropoff = $request->delvr_postal_code;
 
-                $updateOrderAmount['shipping_amnt'] = ($this->hire->calculateshipping($request)>0?$this->hire->calculateshipping($request):0);
+                $updateOrderAmount['shipping_amnt'] = ($this->hire->calculateshipping($request)>0?$this->hire->calculateshipping($request):0)*$paidItemsCount;
                 $orderTotalAmount = $orderTotalAmount + $request->shipping_amnt;
-                $updateOrderAmount['total_amnt'] = $orderTotalAmount - $tssDiscountAmount - $updateOrderAmount['partner_discount_amnt'];
+                $updateOrderAmount['total_amnt'] = $orderTotalAmount - $offerAmount - $tssDiscountAmount;
 
             DB::table($DBTables['Pre_Orders'])
                 ->where('order_reference_id', '=', $order_reference_id)
@@ -1194,12 +1197,16 @@ class CutomerOrderController extends Controller
             $order_reference_id = trim($allInput['order_reference_id']);
             $offerCodeArr = $this->hire->getOfferDetails(date('Y-m-d'), $allInput['offer_code']);
             $allInput['offer_percntg'] = 0;
-            if (count($offerCodeArr) > 0 && $offerCodeArr[0]->offer_type == '1') {
+            $allInput['offer_amnt'] = 0;
+            if (count($offerCodeArr) > 0) {
                 $CheckOfferAppliedArr = $this->hire->checkOfferAppliedInPreOrder($allInput['offer_code'], $order_reference_id);
                 if (count($CheckOfferAppliedArr) == 0) {
-                    $this->hire->updateOfferCode($order_reference_id, $offerCodeArr[0]->id, $offerCodeArr[0]->szCoupnCode, $offerCodeArr[0]->offer_type, $offerCodeArr[0]->offer_percntg);
-
-                    $allInput['offer_percntg'] = $offerCodeArr[0]->offer_percntg;
+                    $this->hire->updateOfferCode($order_reference_id, $offerCodeArr[0]->id, $offerCodeArr[0]->szCoupnCode, $offerCodeArr[0]->offer_type, $offerCodeArr[0]->offer_percntg, $offerCodeArr[0]->offer_amnt);
+                    if($offerCodeArr[0]->offer_type == '1'){
+                        $allInput['offer_percntg'] = $offerCodeArr[0]->offer_percntg;
+                    }else{
+                        $allInput['offer_amnt'] = $offerCodeArr[0]->offer_amnt;
+                    }
                     $allInput['offer_id'] = $offerCodeArr[0]->id;
                     $allInput['offer_Code'] = $offerCodeArr[0]->szCoupnCode;
                     $allInput['offer_type'] = $offerCodeArr[0]->offer_type;

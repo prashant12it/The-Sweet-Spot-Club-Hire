@@ -719,38 +719,47 @@ function removeCartProductConfirmation(order_reference_id, prodArr) {
 }
 
 function getOfferCodeDiscount() {
-    var offercode = $('#offer-code').val();
-    $('#offer').val(offercode);
-    var jdata = {
-        offercode: offercode,
-        functionname: 'getOfferDetails'
-    }
-    $.ajax({
-        datatype: "json",
-        url: siteRelPath+"callmethodbyrequest",
-        type: "POST",
-        cache: false,
-        data: jdata,
-        success: function (html) {
-            var htmldata = '';
-            if (html[0]) {
-                var subtotal = $('#totalprice').val();
-                var insurance = $('#insurance').val();
-                var handling = $('#handling').val();
-                subtotal = (parseFloat(subtotal) - parseFloat(insurance)) - parseFloat(handling);
-                var discount = html[0]['offer_percntg'];
-                var TotalDiscountAmount = parseFloat(subtotal) * parseFloat(discount) * 0.01
-                subtotal = parseFloat(subtotal) - parseFloat(TotalDiscountAmount) + parseFloat(insurance) + parseFloat(handling);
-                $('#off-amount').html('Offer code applied successfully. You have received $' + parseFloat(TotalDiscountAmount).toFixed(2) + ' discount on your order.');
-                // subtotal = parseFloat(subtotal).toFixed(2) + parseFloat(insurance).toFixed(2) + parseFloat(handling).toFixed(2);
-                $('#view-totalprice').html('$' + parseFloat(subtotal).toFixed(2));
-                $('#loader').hide();
-            } else {
-                $('#loader').hide();
-                alert('No discount found.');
-            }
+    if(parseFloat($('#offcodedis').val())==0){
+        var offercode = $('#offer-code').val();
+        $('#offer').val(offercode);
+        var jdata = {
+            offercode: offercode,
+            functionname: 'getOfferDetails'
         }
-    });
+        $.ajax({
+            datatype: "json",
+            url: siteRelPath+"callmethodbyrequest",
+            type: "POST",
+            cache: false,
+            data: jdata,
+            success: function (html) {
+                var htmldata = '';
+                if (html[0]) {
+                    var subtotal = $('#totalprice').val();
+                    var insurance = $('#insurance').val();
+                    var handling = $('#handling').val();
+                    subtotal = (parseFloat(subtotal) - parseFloat(insurance)) - parseFloat(handling);
+                    var discount = 0;
+                    var TotalDiscountAmount = 0;
+                    if(html[0]['offer_percntg']>0){
+                        discount = html[0]['offer_percntg'];
+                        TotalDiscountAmount = parseFloat(subtotal) * parseFloat(discount) * 0.01;
+                    }else{
+                        TotalDiscountAmount = html[0]['offer_amnt'];
+                    }
+                    $('#offcodedis').val(parseFloat(TotalDiscountAmount).toFixed(2));
+                    subtotal = parseFloat(subtotal) - parseFloat(TotalDiscountAmount) + parseFloat(insurance) + parseFloat(handling);
+                    $('#off-amount').html('Offer code applied successfully. You have received $' + parseFloat(TotalDiscountAmount).toFixed(2) + ' discount on your order.');
+                    // subtotal = parseFloat(subtotal).toFixed(2) + parseFloat(insurance).toFixed(2) + parseFloat(handling).toFixed(2);
+                    $('#view-totalprice').html('$' + parseFloat(subtotal).toFixed(2));
+                    $('#loader').hide();
+                } else {
+                    $('#loader').hide();
+                    alert('No discount found.');
+                }
+            }
+        });
+    }
 }
 
 function getDateVal(dateval) {
@@ -900,11 +909,12 @@ function  calculateShipping(setcount) {
                 var multisetDis = $('#msd').val();
                 var partnerDis = $('#pdis').val();
                 var Insurance = $('#insu').val();
+                var OfferCodeDis = $('#offcodedis').val();
                 $('#handling-price').html('$'+shippingPrice);
                 $('#handling').val(shippingPrice);
                 var HandlingVal = $('#handling').val();
                 var TotalPrice = $('#totalprice').val();
-                TotalPrice = parseFloat(SubTotal)+parseFloat(Insurance)+parseFloat(HandlingVal)-parseFloat(multisetDis)-parseFloat(partnerDis);
+                TotalPrice = parseFloat(SubTotal)+parseFloat(Insurance)+parseFloat(HandlingVal)-parseFloat(multisetDis)-parseFloat(OfferCodeDis)-parseFloat(partnerDis);
                 $('#view-totalprice').html('$'+TotalPrice.toFixed(2));
                 $('#totalprice').val(TotalPrice.toFixed(2));
                 $('#info-msg').html('Based upon the number of sets and your location(s) $'+shippingPrice+' will be charged as a handling and delivery fee.');

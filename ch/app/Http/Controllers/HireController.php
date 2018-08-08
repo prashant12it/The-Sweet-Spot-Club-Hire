@@ -943,7 +943,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $result;
     }
 
-    public function updateOfferCode($orderRefID, $offerId, $offerCode, $offerType, $offerPercentage)
+    public function updateOfferCode($orderRefID, $offerId, $offerCode, $offerType, $offerPercentage,$flatDiscount)
     {
         $result = DB::table($this->DBTables['Pre_Orders'])
             ->where('order_reference_id', '=', $orderRefID)
@@ -952,6 +952,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
                 'offer_Code' => $offerCode,
                 'offer_type' => $offerType,
                 'offer_percntg' => $offerPercentage,
+                'offer_amnt' => $flatDiscount,
                 'offer_applied' => 1
             ]);
         return $result;

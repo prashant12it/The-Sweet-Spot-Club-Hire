@@ -91,7 +91,8 @@
                         </tr>
                         <tr class="GridRow">
                             <td class="hidden-xs"></td>
-                            <td style="vertical-align: top"><input type="text" id="offer-code" name="offer-code" value="{{old('offer-code')}}" class="form-control" placeholder="I have an offer code."/></td>
+                            <td style="vertical-align: top"><input type="text" id="offer-code" name="offer-code" value="{{old('offer-code')}}" class="form-control" placeholder="I have an offer code."/>
+                                <input type="hidden" id="offcodedis" name="offcodedis" value="0"></td>
                             <td><button type="button" class="btn frontend-primary-btn btn-info col-md-4" id="get-offer" onclick="getOfferCodeDiscount();" value="Apply">Apply</button>
                             <span class="col-md-8" id="off-amount"></span> </td>
                         </tr>
