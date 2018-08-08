@@ -1207,7 +1207,9 @@ $request->fromDate = $this->formatDates($request->fromDate);
                 $mail->addBCC('prashant@whiz-solutions.com' ,'Whiz');
                 $mail->addBCC('lukesantamaria@tssclubhire.com','Tss-Clubhire');
                 $mail->addBCC('lukecerra@tssclubhire.com','Lukecerra');
-                $mail->send();
+                if($mail->send()){
+                    $this->CourierReminderCron();
+                }
             }catch(Exception $e){
                 dd($e);
             }
