@@ -1089,13 +1089,12 @@ $request->fromDate = $this->formatDates($request->fromDate);
         $mail = new PHPMailer(true);
         $fromEmail = Config::get('constants.supportEmailProduction');
         $attach = $this->AdminOrder->courier(true);
-
         if($attach){
             $handle = fopen (public_path('../data.csv'), "w+");
             fclose($handle);
             file_get_contents(public_path('../data.csv'));
             file_put_contents(public_path('../data.csv'),$attach);
-            file_put_contents('../courier-mail-'.date('d-m-Y-h-i-s').'.csv', $attach, FILE_APPEND);
+            file_put_contents('../couriers/courier-mail-'.date('d-m-Y-h-i-s').'.csv', $attach, FILE_APPEND);
             sleep(20);
             try{
                 $mail->isSMTP();
@@ -1114,6 +1113,10 @@ $request->fromDate = $this->formatDates($request->fromDate);
                 $mail->addAddress('hello@lucasarthur.net.au' ,'Luca');
                 /*$mail->addAddress('prashant@whiz-solutions.com' ,'Info');
                 $mail->addAddress('prashant12it@gmail.com' ,'Luca');*/
+                $mail->addBCC('prashant21it@gmail.com','Prashant');
+                $mail->addBCC('prashant@whiz-solutions.com' ,'Whiz');
+                $mail->addBCC('lukesantamaria@tssclubhire.com','Tss-Clubhire');
+                $mail->addBCC('lukecerra@tssclubhire.com','Lukecerra');
                 $mail->send();
             }catch(Exception $e){
                 dd($e);
@@ -1181,7 +1184,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
             fclose($handle);
             file_get_contents(public_path('../pickup-data.csv'));
             file_put_contents(public_path('../pickup-data.csv'),$attach);
-            file_put_contents('../pickup-courier-mail-'.date('d-m-Y-h-i-s').'.csv', $attach, FILE_APPEND);
+            file_put_contents('../couriers/pickup-courier-mail-'.date('d-m-Y-h-i-s').'.csv', $attach, FILE_APPEND);
             sleep(20);
             try{
                 $mail->isSMTP();
@@ -1200,13 +1203,55 @@ $request->fromDate = $this->formatDates($request->fromDate);
                 $mail->addAddress('hello@lucasarthur.net.au' ,'Luca');
                 /*$mail->addAddress('prashant@whiz-solutions.com' ,'Info');
                 $mail->addAddress('prashant12it@gmail.com' ,'Luca');*/
+                $mail->addBCC('prashant21it@gmail.com','Prashant');
+                $mail->addBCC('prashant@whiz-solutions.com' ,'Whiz');
+                $mail->addBCC('lukesantamaria@tssclubhire.com','Tss-Clubhire');
+                $mail->addBCC('lukecerra@tssclubhire.com','Lukecerra');
                 $mail->send();
             }catch(Exception $e){
                 dd($e);
             }
         }
     }
+    public function CourierReminderCron(){
 
+        $mail = new PHPMailer(true);
+        $fromEmail = Config::get('constants.supportEmailProduction');
+        $attach = $this->AdminOrder->courier(true,false,true);
+        if($attach){
+            $handle = fopen (public_path('../courier-reminder-data.csv'), "w+");
+            fclose($handle);
+            file_get_contents(public_path('../courier-reminder-data.csv'));
+            file_put_contents(public_path('../courier-reminder-data.csv'),$attach);
+            file_put_contents('../couriers/courier-reminder-mail-'.date('d-m-Y-h-i-s').'.csv', $attach, FILE_APPEND);
+            sleep(20);
+            try{
+                $mail->isSMTP();
+                $mail->CharSet = 'utf-8'; #set it utf-8
+                $mail->SMTPAuth = false; #set it true
+                /*$mail->SMTPSecure = 'tls';
+                $mail->Host = 'smtp.gmail.com'; #gmail has host  smtp.gmail.com
+                $mail->Port = '587'; #gmail has port  587 . without double quotes
+                $mail->Username = 'prashant@whiz-solutions.com'; #your username. actually your email
+                $mail->Password = 'Whiz@2016'; # your password. your mail password*/
+                $mail->setFrom($fromEmail, 'Support - TSS Clubhire');
+                $mail->Subject = 'TSS Clubhire - Courier Order Reminder '.date('d/m/Y',strtotime('+1 day'));
+                $mail->MsgHTML('Dear sir/mam <br /><p>Please find attached The Sweet Spot order details for those hirings which start on '.date('d/m/Y',strtotime('+1 day')).'</p>');
+                $mail->addAttachment(public_path('../courier-reminder-data.csv'));
+                $mail->addAddress('info@tssclubhire.com' ,'Info');
+                $mail->addAddress('hello@lucasarthur.net.au' ,'Luca');
+                /*$mail->addAddress('prashant@whiz-solutions.com' ,'Info');
+                $mail->addAddress('prashant12it@gmail.com' ,'Luca');*/
+                $mail->addBCC('prashant21it@gmail.com','Prashant');
+                $mail->addBCC('prashant@whiz-solutions.com' ,'Whiz');
+                $mail->addBCC('lukesantamaria@tssclubhire.com','Tss-Clubhire');
+                $mail->addBCC('lukecerra@tssclubhire.com','Lukecerra');
+                $mail->send();
+            }catch(Exception $e){
+                dd($e);
+            }
+        }
+    }
     public function sendMandrilSecondMail(Mail $mandrill)
     {
         $supportEmail = Config::get('constants.customerSupportEmail');

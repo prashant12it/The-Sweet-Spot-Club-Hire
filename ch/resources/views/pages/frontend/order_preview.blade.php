@@ -356,6 +356,46 @@
 		<hr/>
 	</div>
 	@include('includes.frontend.popupMessage')
+	{{--<div class="modal fade" id="stripemodal" role="dialog">
+		<div class="modal-dialog">
 
+			<!-- Modal content-->
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						&times;
+					</button>
+				</div>
+				<div class="modal-body">
+
+					<div class="row">
+						<div class="col-md-12 text-center">
+							<form action="{{ URL::to('thankyou')}}" method="POST">
+								<script
+										src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+										data-key="pk_test_GgDsO4jfJYgodWomCEg6TQYg"
+										data-amount="{{number_format((number_format($total,2,'.','') + number_format($orderDetails->shipping_amnt,2,'.','') + number_format($orderDetails->insurance_amnt,2,'.','') - number_format($cartprods['Discount'] + ($cartprods['partnerDiscount']>0?$cartprods['partnerDiscount']:0.00) + ($cartprods['tss']>0?$cartprods['tss']:0.00),2,'.','') - number_format((!empty($orderDetails->offer_Code)?$orderDetails->offer_amnt:0.00),2,'.','')),2,'.','')*100}}"
+										data-name="The Sweet Spot Club Hire"
+										data-description="TSS Clubhire booking Charges."
+										data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+										data-email="{{$orderDetails->buyer_email}}"
+										data-label="Confirm and proceed to payment"
+										data-locale="auto">
+								</script>
+								<input type="hidden" name="amount" value="{{number_format((number_format($total,2,'.','') + number_format($orderDetails->shipping_amnt,2,'.','') + number_format($orderDetails->insurance_amnt,2,'.','') - number_format($cartprods['Discount'] + ($cartprods['partnerDiscount']>0?$cartprods['partnerDiscount']:0.00) + ($cartprods['tss']>0?$cartprods['tss']:0.00),2,'.','') - number_format((!empty($orderDetails->offer_Code)?$orderDetails->offer_amnt:0.00),2,'.','')),2,'.','')*100}}" />
+								<input type="hidden" name="description" value="TSS Clubhire booking Charges." />
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info frontend-primary-btn" data-dismiss="modal">Close
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</div>--}}
 </section>
 @endsection

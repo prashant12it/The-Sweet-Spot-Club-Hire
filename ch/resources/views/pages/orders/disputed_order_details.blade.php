@@ -122,7 +122,7 @@
                                                 <strong>Buyer Name : </strong>{{$orderDetailsData->buyer_first_name ." ". $orderDetailsData->buyer_last_name}}<br/><br/>
                                                 <strong>Buyer Email : </strong>{{$orderDetailsData->buyer_email}}<br/><br/>
                                                 <strong>Buyer Country : </strong>{{$orderDetailsData->buyer_country_name}}<br/><br/>
-                                                <strong>Payment Gateway : </strong>{{($orderDetailsData->payment_option == 1?'Pay Dollar':($orderDetailsData->payment_option == 2?'NAB Transact':'N/A'))}}<br/><br/>
+                                                <strong>Payment Gateway : </strong>{{($orderDetailsData->payment_option == 3?'Stripe':($orderDetailsData->payment_option == 2?'NAB Transact':($orderDetailsData->payment_option == 1?'Pay Dollar':'N/A')))}}<br/><br/>
                                                 @if(trim($orderDetailsData->partner_ref_key) != '')
                                                     <strong>Partner Name : </strong>{{$orderDetailsData->partner_name}}<br/><br/>
                                                     <strong>Partner Email : </strong>{{$orderDetailsData->partner_email}}<br/><br/>

@@ -34,6 +34,7 @@ Route::any( '/', array( 'as' => '/', 'uses' => 'ClubSearchController@index' ) );
 Route::any( '/clubsearch/{lang?}', [ 'uses' => 'HireController@index' ] );
 Route::any( '/courier-mail', [ 'uses' => 'HireController@SendCronMail' ] );
 Route::any( '/pickup-courier-mail', [ 'uses' => 'HireController@PickupMailCron' ] );
+Route::any( '/courier-reminder-mail', [ 'uses' => 'HireController@CourierReminderCron' ] );
 Route::any( '/disputed_order_notification', [ 'uses' => 'HireController@DisputedOrderNotification' ] );
 Route::any( '/sendmandrilmail', [ 'uses' => 'HireController@sendMandrilMail' ] );
 Route::any( '/second-purchase-email', [ 'uses' => 'HireController@sendMandrilSecondMail' ] );

@@ -28,7 +28,7 @@ class AdminOrdersController extends Controller
             ->with('i', ($request->input('page', 1) - 1) * $rowsPerPage);
     }
 
-    public function courier($mail=false,$pickup=false)
+    public function courier($mail=false,$pickup=false,$delivery=false)
     {
         if(!$mail) {
             header("Content-type: text/csv");
@@ -37,14 +37,15 @@ class AdminOrdersController extends Controller
             header("Expires: 0");
         }
         View::share('title', 'Courier');
-        $yesterday = date('Y-m-d',strtotime('-1 day'));
-//        $yesterday = date('Y-m-d',strtotime('2017-11-01'));
+        $yesterday = date('Y-m-d',strtotime('-1 days'));
+        $tomorrow = date('Y-m-d',strtotime('+1 days'));
         if($pickup){
             $ordersAry = Orders::where('dt_book_upto','Like','%'.$yesterday.'%')->orderBy('id', 'DESC')->get();
+        }elseif($delivery){
+            $ordersAry = Orders::where('dt_book_from','Like','%'.$tomorrow.'%')->orderBy('id', 'DESC')->get();
         }else{
             $ordersAry = Orders::where('dtCreatedOn','Like','%'.$yesterday.'%')->orderBy('id', 'DESC')->get();
         }
-
         $getProdCountArr = DB::table($this->DBTables['Orders_Products'])
             ->select(DB::raw('count(*) as recount'))
             ->groupBy('order_id')
@@ -112,8 +113,9 @@ if($mail){
         $rowsPerPage = Config::get('constants.PaginationRowsPerPage');
         $ordersAry = DB::table($this->DBTables['Pre_Orders'])
             ->where(function ($query) {
-                $query->where('payment_option','=', 1)
-                    ->orWhere('payment_option', '=', 2);
+                $query->where('payment_option','=', 3)
+                    ->orWhere('payment_option', '=', 2)
+                    ->orWhere('payment_option', '=', 1);
             })->where(function ($query) {
                 $query->where('payment_in_progress','=', 1);
             })->orderBy('id','DESC')
