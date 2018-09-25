@@ -1888,3 +1888,105 @@ h3.gift-prodname{text-align: center; color: #000000; margin-bottom: 20px; border
 #gift-img > img {
     max-height: 120px;
 }
+
+
+*{padding: 0;margin: 0;}
+footer {
+    background-color: #35383c;
+    padding-top: 60px;
+}
+.first-block h3,.third-block h3,.second-block h3,.fourth-block h3{color: white;font-weight: bold;}
+.first-block p{
+    color: #ebebeb;
+    font-size: 14px;
+    padding-right:50px;
+}
+.footer-navigation li a{ color: #fff;font-size: 16px;text-decoration: underline; }
+.footer-navigation li{list-style: none;margin-bottom: 10px;}
+.footer-form .form-group label{    font-weight: bold;font-size: 0.92em;color: white;}
+.footer-form .form-group input{width: 100%;border-radius: 2px;border: 2px white solid;padding: 13px;height: 46px;background: transparent;color: white;font-weight: 600;}
+.submit{min-width: 142px;font-size: 0.92em;color: white;height: 46px;background: transparent;border: 2px white solid;border-radius: 2px;line-height: 46px;font-weight: bold;}
+.fourth-block ul li,.first-block ul li{padding: 0;}
+.fourth-block ul li a{color: #b0b0b0;font-size: 40px;}
+.first-block ul li a {color: #b0b0b0;padding: 15px 0;
+    min-width: 85px;width: 100%;display: block;text-align: center;
+}
+.first-block ul li a.nav-facebook:hover{background-color: #37589b;color: white;border-top-left-radius: 2px;border-bottom-left-radius: 2px;}
+.first-block ul li a.nav-linkedin:hover{background: #46d4fe; color: white;border-top-right-radius: 2px;border-bottom-right-radius: 2px;border-right: 0;}
+.first-block ul li a.nav-twitter:hover{background: #419cca; color: white;}
+.first-block ul li a.nav-twitter{border-right: 1px white solid;border-left: 1px white solid;}
+.footer-form .form-group {margin: 20px 0;}
+.middle-line{margin: 50px 0 0px 0;}
+.last-brands h3{color: white; font-weight: bold;}
+.last-nav-imag{position: relative;display: block;}
+.last-nav-imag .transparent-hover{position: absolute;width: 100%;height: 100%;background: white;opacity: 0.5;display: none;top: -3px;}
+.last-nav-imag:hover .transparent-hover{display: block;}
+.fa-mail-forward{
+    position: absolute;top: 50%;width: 65%;background: rgba(229,170,44,0.7);height: 65%;text-align: center;border-radius: 50%;transform: translate(-50%,-50%);left: 50%;font-size: 26px !important;color: white;display: none!important;
+}
+.fa-mail-forward::before, .fa-share::before{
+    position: absolute;top: 50%;transform: translate(-50%,-50%);
+}
+.last-nav-imag:hover .fa-mail-forward{ animation: mymove 0.5s alternate;display: block!important;}
+.last-brands h3{margin-bottom: 50px;}
+.popup-insider:before{
+    position: absolute;
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: white;
+    transform: rotate(50deg);
+    bottom: -20px;
+    left: 43%;
+}
+.popup-insider{
+    position: relative;
+}
+.first-block ul li{
+    position: relative;    transition: all 0.5s ease-in-out;
+}
+.popup-facebook{
+    background-color: #ffffff;
+    color: #919191;
+    width: 150px;
+    position: absolute;
+    z-index: 9999999;
+    padding: 0;
+    width: 150px;
+    border-radius: 2px;
+    box-shadow: 0px 3px 13px 0px rgba(0, 0, 0, 0.1);
+    border-width: 1px;
+    border-style: solid;
+    padding: 15px;
+    font-size: 13px;
+    top: -66px;
+    left: -30%;
+    transition: all 0.2s ease-in-out;
+    opacity: 0;
+}
+.first-block ul li:hover .popup-facebook{
+    opacity: 1;
+}
+.popup-twitter{
+}
+.last-nav-imag img{margin: auto;}
+@keyframes mymove {
+    0% {width: 65%;height: 65%;}
+    50% {width: 70%;height: 70%;}
+    100% {width: 65%;height: 65%;}
+}
+@media screen and (max-width: 1180px){
+    .first-block ul li a{min-width: 60px;}}
+@media screen and (max-width: 1100px){
+    .first-block ul li a{min-width: 45px;}}
+@media screen and (max-width: 767px){
+    .fa-mail-forward{
+        width: 120px;
+        height: 120px;
+    }
+    @keyframes mymove {
+        0% {width: 120px;height: 120px;}
+        50% {width: 130px;height: 130px;}
+        100% {width: 120px;height: 120px;}
+    }
+}

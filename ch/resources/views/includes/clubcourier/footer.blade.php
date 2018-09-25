@@ -8,56 +8,116 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 <footer id="custom-footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3 col-md-3">
-                <h2>About TSS</h2>
-                <p>At The Sweet Spot Club Hire, our aim is to make golf travel simple. By offering the latest in premium golf club technology, we offer the ability to hire golf equipment while you enjoy your travels in Australia.</p>
-                <ul class="social-links">
-                    <li><a target=_blank" href="https://www.youtube.com/channel/UCSE484gOqNWs5l2cVkuPEAw"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
-                    <li><a target="_blank" href="https://www.instagram.com/tssclubhire/?hl=en"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                    <li><a target="_blank" href="https://www.facebook.com/tssclubhire/"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
-                    <li><a target="_blank" href="https://twitter.com/tssclubhire?lang=en"><i class="fa fa-tumblr" aria-hidden="true"></i></a></li>
-                </ul>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <h2>Information</h2>
-                <ul class="footer-nav">
-                    <li><a href="{{url('../destinations-delivery/')}}">Destinations & Delivery</a></li>
-                    <li><a href="{{url('../privacy-policy/')}}">Privacy Policy</a></li>
-                    <li><a href="{{url('../terms-of-service/')}}">Terms of service</a></li>
-                    <li><a href="{{url('../pricing/')}}">Pricing</a></li>
-                    <li><a href="{{url('../affiliate/')}}">Affiliates</a></li>
-                    <li><a href="{{url('../main-blog/')}}">Blog</a></li>
-                    <li><a href="{{url('../contact/')}}">Contact</a></li>
-                    <li><a href="{{url('../about-us/')}}">About Us</a></li>
-                </ul>
-            </div>
-            <div class="col-sm-3 col-md-3">
-                <h2>Subscribe to our Newsletter</h2>
-                <form>
-                    <div class="form-group">
-                        <input type="text" name="ta" placeholder="Email Address*">
+        <div class="container-fluid">
+            <div class="">
+                <div class="col-sm-3">
+                    <div class="first-block">
+                        <h3>About Us</h3>
+                        <p>At The Sweet Spot Club Courier, it is our aim to make golf travel simple. A simple service which takes the hassle out of transporting your clubs on airlines and risking damage to your clubs. Let us take care of your clubs, so you can focus on a great trip.
+                        </p>
+                        <ul class="list-unstyled list-inline ">
+                            <li>
+                                <a href="#" class="nav-facebook">
+                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                    <div class="popup-facebook">
+                                        <div class="popup-insider">
+                                            Share on Facebook
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-twitter">
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                    <div class="popup-facebook popup-twitter">
+                                        <div class="popup-insider">
+                                            Share on twitter
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-linkedin">
+                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                    <div class="popup-facebook popup-linkedin">
+                                        <div class="popup-insider">
+                                            Share on linkedin
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="form-group">
-                        <input type="text" name="ta" placeholder="First Name">
+                </div>
+                <div class="col-sm-3">
+                    <div class="second-block">
+                        <h3>information</h3>
+                        <ul class="footer-navigation">
+                            <li><a href="https://www.tssclubhire.com/shop/../destinations-delivery">Destinations &amp; Delivery</a></li>
+                            <li><a href="https://www.tssclubhire.com/shop/../privacy-policy">Privacy Policy</a></li>
+                            <li><a href="https://www.tssclubhire.com/shop/../terms-of-service">Terms of service</a></li>
+                            <li><a href="https://www.tssclubhire.com/shop/../pricing">Pricing</a></li>
+                            <li><a href="https://www.tssclubhire.com/shop/../affiliate">Affiliates</a></li>
+                            <li><a href="https://www.tssclubhire.com/shop/../main-blog">Blog</a></li>
+                            <li><a href="https://www.tssclubhire.com/shop/../contact">Contact</a></li>
+                            <li><a href="https://www.tssclubhire.com/shop/../about-us">About Us</a></li>
+                        </ul>
                     </div>
-                    <div class="form-group">
-                        <input type="text" name="ta" placeholder="Last Name">
+                </div>
+                <div class="col-sm-3">
+                    <div class="third-block">
+                        <h3>Subscribe to our Newsletter</h3>
+                        <form class="footer-form">
+                            <div class="form-group">
+                                <label for="inputsm">Email Address</label>
+                                <input class="form-control input-sm" id="inputsm" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputsm">First Name</label>
+                                <input class="form-control input-sm" id="inputsm" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputsm">Last Name</label>
+                                <input class="form-control input-sm" id="inputsm" type="text">
+                            </div>
+                            <button class="submit">submit</button>
+                        </form>
                     </div>
-                    <input type="submit" class="sbmt-btn" style="font-size:14px" value="Receive 10% off your first set hire">
-                </form>
+                </div>
+                <div class="col-sm-3">
+                    <div class="fourth-block">
+                        <h3>Like Us On Social Media</h3>
+                        <ul class="list-unstyled list-inline">
+                            <li><a href="#" ><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="#" > <i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                            <li><a href="#" ><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="col-sm-3 col-md-3">
-                <div class="fb-page" data-href="https://www.facebook.com/tssclubhire/" data-tabs=""
-                     data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
-                     data-show-facepile="true">
-                    <blockquote cite="https://www.facebook.com/tssclubhire/" class="fb-xfbml-parse-ignore"><a
-                                href="https://www.facebook.com/tssclubhire/">The Sweet Spot Club Hire</a></blockquote>
+            <div class="col-sm-12 middle-line">
+                <hr>
+            </div>
+            <div class="col-sm-12">
+                <div class="last-brands">
+                    <h3>Our Brands</h3>
+                    <div class="col-sm-2">
+                        <a href="{{url('../clubcourier/')}}" class="last-nav-imag">
+                            <img src="../frontend/images/logo-blue.png" class="img-responsive">
+                            <div class="transparent-hover"></div>
+                            <i class="fa fa-mail-forward"></i>
+                        </a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="{{url('../')}}" class="last-nav-imag">
+                            <img src="../frontend/images/logo-primary.png" class="img-responsive">
+                            <div class="transparent-hover"></div>
+                            <i class="fa fa-mail-forward"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     <div class="bottom-footer">
         <div class="container">
             <div class="row">
