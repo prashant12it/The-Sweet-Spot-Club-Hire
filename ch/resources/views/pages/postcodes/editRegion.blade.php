@@ -76,6 +76,7 @@
                     </div>
                     
                 </div>
+        </div>
         <!-- end .form-body section -->
         <div class="panel-footer clearfix">
             <div class="col-lg-8"></div>
@@ -86,7 +87,6 @@
         </div>
         <!-- end .form-footer section -->
         </form>
-    </div>
     </div>
 </section>
 @endsection

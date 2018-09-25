@@ -62,6 +62,13 @@ Route::post('/getunorderdprods',['uses'=>'AdminOrdersController@getUnorderedProd
 Route::post('/changeOrderItem',['uses'=>'AdminOrdersController@changeOrderItem']);
 Route::post('thankyou','CutomerOrderController@thankyounew');
 /*
+ * ClubCourier start
+ */
+Route::any( '/clubcourier/home', [ 'uses' => 'ClubCourier@index' ] );
+/*
+ * ClubCourier End
+ */
+/*
  * Front End
  * Partner
  */
@@ -191,6 +198,25 @@ Route::group( [ 'middleware' => 'auth' ], function () {
     Route::post('/edit_offer',['uses'=>'AdminOffersController@update']);
     
     Route::post('/delete_offer',['uses'=>'AdminOffersController@destroy']);
+
+    /*
+     * Club Courier Voucher Management
+     */
+
+    Route::get('/voucher_management',['uses'=>'AdminCCVouchersController@index']);
+
+    Route::get('/search_voucher',['uses'=>'AdminCCVouchersController@searchOffer']);
+    Route::post('/search_voucher',['uses'=>'AdminCCVouchersController@searchOffer']);
+
+    Route::get('/view_voucher/{idOffer}',['uses'=>'AdminCCVouchersController@show']);
+
+    Route::get('/add_voucher',['uses'=>'AdminCCVouchersController@create']);
+    Route::post('/add_voucher',['uses'=>'AdminCCVouchersController@store']);
+
+    Route::get('/edit_voucher/{idOffer}',['uses'=>'AdminCCVouchersController@edit']);
+    Route::post('/edit_voucher',['uses'=>'AdminCCVouchersController@update']);
+
+    Route::post('/delete_voucher',['uses'=>'AdminCCVouchersController@destroy']);
     
     /*
      * Customer Order

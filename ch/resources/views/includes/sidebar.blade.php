@@ -58,6 +58,12 @@
                     <span class="sidebar-title">Region & Postcodes</span>
                 </a>
             </li>
+            {{--<li>
+                <a href="{{url('/voucher_management')}}">
+                    <span class="fa fa-gift"></span>
+                    <span class="sidebar-title">Club Courier Voucher Management</span>
+                </a>
+            </li>--}}
         </ul>
 
     </div>
