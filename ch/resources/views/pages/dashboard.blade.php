@@ -156,7 +156,8 @@
                             ?>
                             <tr class="parent_pro_<?php echo (int)$parent_product->id; ?>">
                                 <td class="text-left upper-case child-product-title">
-                                    <strong><?php echo $childProduct->name; ?></strong><br/>
+                                    <strong><span style="text-transform: capitalize">Set Name: </span></strong><span><?php echo $childProduct->name; ?></span><br/>
+                                    <strong><span style="text-transform: uppercase">SKU: </span></strong><span><?php echo $childProduct->sku; ?></span><br/>
                                     <br/>
                                 </td>
                                 <td>

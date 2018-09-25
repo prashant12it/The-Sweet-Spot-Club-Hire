@@ -534,6 +534,8 @@ class CutomerOrderController extends Controller
             $updateOrderAmount['sub_total_amnt'] = (($totalProductAmount - $offerAmount - $tssDiscountAmount - $updateOrderAmount['partner_discount_amnt']) + $insuranceAmount + $shippingAmount);
             $request->pickup = $request->pickup_postal_code;
             $request->dropoff = $request->delvr_postal_code;
+            $request->pickupState = $request->pickup_state_id;
+            $request->dropoffState = $request->delvr_state_id;
 
                 $updateOrderAmount['shipping_amnt'] = ($this->hire->calculateshipping($request)>0?$this->hire->calculateshipping($request):0)*$paidItemsCount;
                 $orderTotalAmount = $orderTotalAmount + $request->shipping_amnt;
@@ -1553,7 +1555,7 @@ class CutomerOrderController extends Controller
                         $templateData = '<table cellspacing="1" cellpadding="4" border="1">
 				<thead>
 				<tr>
-					<th align="left">YOUR ORDER : ' . date('jS F Y', strtotime(session()->get('fromDate'))) . ' - ' . date('jS F Y', strtotime(session()->get('toDate'))) . '</th>
+					<th align="left">YOUR ORDER : ' . date('jS F Y', strtotime($orderDetails->dt_book_from)) . ' - ' . date('jS F Y', strtotime($orderDetails->dt_book_upto)) . '</th>
 					<th align="left">QUANTITY</th>
 					<th align="left">COST</th>
 				</tr>
@@ -1841,9 +1843,11 @@ class CutomerOrderController extends Controller
                     "transactionId: ".$transactionId.PHP_EOL.
                     "payerid: ".$payerid.PHP_EOL.
                     "status: ".$status.PHP_EOL.
+                    "order reference id: ".$order_reference_id.PHP_EOL.
+                    "time: ".time().PHP_EOL.
                 "-------------------------".PHP_EOL;
                 //Save string to log, use FILE_APPEND to append.
-                file_put_contents('../stripe_log_post_'.time().'--'.$order_reference_id.'.txt', $log, FILE_APPEND);
+                file_put_contents('../couriers/stripe_log_post.txt', $log, FILE_APPEND);
 
                 if(!empty($transactionId) && $status == 'succeeded'){
                     View::share('PageDescription1', 'Thank you for hiring from the Sweet Spot Club Hire! We hope you enjoy your clubs and they help deliver you a great round or golf trip.');
@@ -1986,7 +1990,7 @@ class CutomerOrderController extends Controller
                         $templateData = '<table cellspacing="1" cellpadding="4" border="1">
 				<thead>
 				<tr>
-					<th align="left">YOUR ORDER : ' . date('jS F Y', strtotime(session()->get('fromDate'))) . ' - ' . date('jS F Y', strtotime(session()->get('toDate'))) . '</th>
+					<th align="left">YOUR ORDER : ' . date('jS F Y', strtotime($orderDetails->dt_book_from)) . ' - ' . date('jS F Y', strtotime($orderDetails->dt_book_upto)) . '</th>
 					<th align="left">QUANTITY</th>
 					<th align="left">COST</th>
 				</tr>

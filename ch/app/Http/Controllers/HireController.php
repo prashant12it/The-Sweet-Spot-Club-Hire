@@ -43,6 +43,7 @@ class HireController extends Controller
         View::share('PageHeading', 'Golf Club Hire Australia');
         View::share('PageDescription1', 'At The Sweet Spot Club Hire, we offer the latest to market clubs from the leading brands – Callaway and TaylorMade. We have designed our sets to cater for all levels of golfer, whether it be someone playing from scratch or someone just starting out. Hit the Sweet Spot with your next hire!');
         View::share('PageDescription2', '');
+        $EstimatedShipping = Config::get('constants.stateEstimatedShipping');
         $giftProdId = array();
         $insurance = 0;
         $setCount = 0;
@@ -171,7 +172,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
                 }
             }
 //            dd($AllAvailProdsArr);
-            return view('pages.frontend.hire', compact('AllAvailProdsArr', 'TotalUpsellProdsArr', 'AttributesArr', 'AttribOptsArr', 'defaultFilterArr', 'cartDetailArr', 'hireDays', 'insurance', 'showGift', 'giftProdId','setCount'));
+            return view('pages.frontend.hire', compact('AllAvailProdsArr', 'TotalUpsellProdsArr', 'AttributesArr', 'AttribOptsArr', 'defaultFilterArr', 'cartDetailArr', 'hireDays', 'insurance', 'showGift', 'giftProdId','setCount','EstimatedShipping'));
 
     }
     public function setLang(){
@@ -850,6 +851,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
     {
         $this->setLang();
         $page1 = session()->get('page1');
+        $EstimatedShipping = Config::get('constants.stateEstimatedShipping');
         if(isset($page1) && isset($_COOKIE['order_reference_id']) && $page1 == '1' && $_COOKIE['order_reference_id'] !== null){
             session()->put('page2','1');
             View::share('filter', 'insurance');
@@ -879,7 +881,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
             }
             $setCount = $this->getCartSetCount($_COOKIE['order_reference_id']);
 
-            return view('pages.frontend.insurance', compact('TotalUpsellProdsArr', 'cartDetailArr', 'insurance','setCount'));
+            return view('pages.frontend.insurance', compact('TotalUpsellProdsArr', 'cartDetailArr', 'insurance','setCount','EstimatedShipping'));
         }else{
             return redirect()->to('/');
         }
@@ -987,12 +989,16 @@ $request->fromDate = $this->formatDates($request->fromDate);
     public function calculateshipping(Request $request)
     {
         $pickUp = $request->pickup;
+        $pickupState = $request->pickupState;
         $dropOff = $request->dropoff;
+        $dropoffState = $request->dropoffState;
         $totalShipping = 0;
         $finalShipping = 0;
         if (!empty($pickUp)) {
-            $PickUpresult = DB::table($this->DBTables['Shipping'])
-                ->where('postcode', '=', $pickUp)
+            $PickUpresult = DB::table($this->DBTables['Shipping'].' as shp')
+                ->join($this->DBTables['Regions'].' as reg', 'reg.id', '=', 'shp.region_id')
+                ->where([['reg.stateid', '=', $pickupState],['shp.postcode', '=', $pickUp]])
+                ->select('shp.id', 'shp.postcode', 'shp.shipping_cost', 'shp.suburb', 'reg.region')
                 ->get();
             if (count($PickUpresult) > 0) {
                 $totalShipping = $totalShipping + $PickUpresult[0]->shipping_cost;
@@ -1001,8 +1007,10 @@ $request->fromDate = $this->formatDates($request->fromDate);
             }
         }
         if (!empty($dropOff)) {
-            $DropOffresult = DB::table($this->DBTables['Shipping'])
-                ->where('postcode', '=', $dropOff)
+            $DropOffresult = DB::table($this->DBTables['Shipping'].' as shp')
+                ->join($this->DBTables['Regions'].' as reg', 'reg.id', '=', 'shp.region_id')
+                ->where([['reg.stateid', '=', $dropoffState],['shp.postcode', '=', $dropOff]])
+                ->select('shp.id', 'shp.postcode', 'shp.shipping_cost', 'shp.suburb', 'reg.region')
                 ->get();
             if (count($DropOffresult) > 0) {
                 $totalShipping = $totalShipping + $DropOffresult[0]->shipping_cost;

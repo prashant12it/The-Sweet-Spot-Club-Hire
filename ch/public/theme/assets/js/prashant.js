@@ -889,10 +889,14 @@ function showProdDets(prodname,prodid,hide,img) {
 }
 
 function  calculateShipping(setcount) {
+    var pickupState = $('#pickup_state_id').val();
     var pickup = $('#pickup_postal_code').val();
+    var dropoffState = $('#delvr_state_id').val();
     var dropoff = $('#delvr_postal_code').val();
     var jdata = {
         pickup: pickup,
+        pickupState: pickupState,
+        dropoffState: dropoffState,
         dropoff: dropoff
     }
     $.ajax({
@@ -1086,7 +1090,7 @@ function getRegions(ele,selectedval) {
                 });
                 setTimeout(function () {
                     if(selectedval){
-                        alert(selectedval);
+                        // alert(selectedval);
                         $('#region_id').val(selectedval);
                     }
                 },500);

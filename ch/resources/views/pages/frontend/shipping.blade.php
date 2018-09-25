@@ -243,10 +243,8 @@
                                     <option value="0">Select State</option>
                                         @if ($statesAry->count() > 0)
                                             @foreach ($statesAry as $state)
-                                                @if($state->id != 271)
                                                 <option value="{{$state->id}}" {{(old('delvr_state_id') == $state->id ? "selected=selected":"")}}>{{$state->name}}</option>
-                                                @endif
-                                            @endforeach
+                                             @endforeach
                                         @endif
                                 </select>
                                 @if ($errors->has('delvr_state_id'))
@@ -331,9 +329,9 @@
                                     <option value="0">Select State</option>
                                         @if ($statesAry->count() > 0)
                                             @foreach ($statesAry as $state)
-                                    @if($state->id != 271)
+
                                                 <option value="{{$state->id}}" {{(old('pickup_state_id') == $state->id ? "selected=selected":"")}}>{{$state->name}}</option>
-                                    @endif
+
                                             @endforeach
                                         @endif
                                 </select>

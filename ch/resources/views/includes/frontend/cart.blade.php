@@ -11,7 +11,9 @@
 			</div>
 		</div>
 		<div class="inner-body cart-dets">
-			<?php $total = 0; ?>
+			<?php $total = 0;
+			$state = session()->get('states');
+			$estShipping = $EstimatedShipping[$state];?>
 			@if(!empty($cartDetailArr))
 			@foreach($cartDetailArr as $cartkey => $cartprods)
 
@@ -96,6 +98,11 @@
                 <span>Shipping</span>
                 <span>${{number_format($cartprods['shipping'],2,'.',',')}}</span>
             </div>
+            @else
+                <div class="row">
+                    <span>Estimated Shipping</span>
+                    <span>${{number_format($estShipping,2,'.',',')}}</span>
+                </div>
             @endif
             @if($cartprods['insurance']>0)
             <div class="row">
@@ -105,7 +112,7 @@
             @endif
 			<div class="row">
 				<span>Total</span>
-				<span>${{number_format((number_format($cartprods['subtotal'],2,'.','') + number_format($cartprods['shipping'],2,'.','') + number_format($cartprods['insurance'],2,'.','') - number_format($cartprods['Discount'] + ($cartprods['partnerDiscount']>0?$cartprods['partnerDiscount']:0.00),2,'.','')),2,'.',',')}}</span>
+				<span>${{number_format((number_format($cartprods['subtotal'],2,'.','') + number_format(($cartprods['shipping']>0?$cartprods['shipping']:$estShipping),2,'.','') + number_format($cartprods['insurance'],2,'.','') - number_format($cartprods['Discount'] + ($cartprods['partnerDiscount']>0?$cartprods['partnerDiscount']:0.00),2,'.','')),2,'.',',')}}</span>
 			</div>
 			<button id="continue-ordering" onclick="checkandproceed('{{$redirectPage}}','{{(isset($insurance) && $insurance==0?'1':'1')}}');">
 				Continue
@@ -114,6 +121,10 @@
 		@else
 	</div>
 	<div class="bottom-ftr empty-cart">
+        <div class="row">
+            <span style="width: 60%; float: left; color: #fff; font-size: 18px; padding: 0px 30px;">Estimated Shipping</span>
+            <span style="width: 30%; float: left; color: #000; font-size: 18px; padding: 0px 30px;">${{number_format($estShipping,2,'.',',')}}</span>
+        </div>
 		<div class="row">
 			<span>Your cart is empty.</span>
 		</div>
