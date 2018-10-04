@@ -105,7 +105,6 @@
                                             <thead>
                                                 <tr>
                                                     <th width="10%">Order ID</th>
-                                                    <th width="12%">Customer ID</th>
                                                     <th width="18%">Customer Name</th>
                                                     <th width="25%">Customer Email</th>
                                                     <th width="10%">Order Amt.($)</th>
@@ -118,7 +117,6 @@
                                                     @foreach ($usersAry as $users)
                                                         <tr>
                                                             <td>#{{$users->idOrder}}</td>
-                                                            <td>#{{$users->user_id}}</td>
                                                             <td>{{$users->user_name}}</td>
                                                             <td>{{$users->user_email}}</td>
                                                             <td>${{number_format($users->paid_amnt,2)}}</td>

@@ -55,7 +55,11 @@ class VerifyCsrfToken extends Middleware
         'edit_set',
         'search_inventory',
         'search_order',
+        'club_courier_search_order',
         'update_order_status',
+        'ccupdate_order_status',
+        'create_cc_order_by_admin',
+        'create_order_by_admin',
         'search_offer',
         'add_offer',
         'edit_offer',
@@ -77,6 +81,8 @@ class VerifyCsrfToken extends Middleware
         'delete-postcode',
         'search-postcode',
         'login',
-        'thankyou'
+        'thankyou',
+        '/clubcourier/courier_booking',
+        '/clubcourier/thankyou'
     ];
 }

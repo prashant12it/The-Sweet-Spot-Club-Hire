@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://www.tssclubhire.com/shop'),
+    'url' => env('APP_URL', 'https://www.tssclubhire.com/shop'),
 
     /*
     |--------------------------------------------------------------------------
@@ -179,7 +179,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 	    Unisharp\Ckeditor\ServiceProvider::class,
-
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -231,6 +231,7 @@ return [
         'Newsletter' => Spatie\Newsletter\NewsletterFacade::class,
         'XeroPrivate'=> 'DrawMyAttention\XeroLaravel\Facades\XeroPrivate',
         'MandrillMail'  => Weblee\Mandrill\MandrillFacade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

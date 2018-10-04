@@ -70,6 +70,7 @@ header.affix .top-social-links li a:hover {
 }
 .affix {
     z-index: 999;
+    top:0;
 }
 header .container-fluid{padding: 0px}
 /*------------ navigation css------------------- */
@@ -1214,7 +1215,7 @@ footer .col-sm-3 form input:-moz-placeholder { /* Firefox 18- */
 }
 
 /* -----------hire page css part-------------- */
-#hire-page-banner {
+#hire-page-banner, #ccbooking-banner {
     background-repeat: no-repeat;
     background-image: url(../images/hirepage.jpg);
     background-attachment: scroll;
@@ -1779,7 +1780,7 @@ footer .col-sm-3 form input:-moz-placeholder { /* Firefox 18- */
     position:absolute;
     content:"*";
     top:0;
-    margin-left: -10px
+    /*margin-left: -10px*/
 }
 
 #details form .form-group input ,#details form .form-group select {
@@ -1989,4 +1990,14 @@ footer {
         50% {width: 130px;height: 130px;}
         100% {width: 120px;height: 120px;}
     }
+}
+#return-form{display: none}
+.frontend-primary-btn.opt-inactive{
+    background-color: #fff;
+    color: #36b5e4;
+    border: 1px solid #36b5e4;
+}
+#calculateQuote .form-group input[type=radio]{width: auto; height: auto}
+.btn-with-label{
+    margin-top: 26px; padding: 9px;
 }

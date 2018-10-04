@@ -58,12 +58,24 @@
                     <span class="sidebar-title">Region & Postcodes</span>
                 </a>
             </li>
-            {{--<li>
+            <li>
                 <a href="{{url('/voucher_management')}}">
                     <span class="fa fa-gift"></span>
                     <span class="sidebar-title">Club Courier Voucher Management</span>
                 </a>
-            </li>--}}
+            </li>
+            <li>
+                <a href="{{url('/club_courier_orders')}}">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    <span class="sidebar-title">Club Courier Orders Management</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{url('/club_courier_disputed_orders')}}">
+                    <span class="glyphicon glyphicon-ban-circle"></span>
+                    <span class="sidebar-title">Club Courier Disputed Orders</span>
+                </a>
+            </li>
         </ul>
 
     </div>

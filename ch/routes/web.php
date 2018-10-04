@@ -34,6 +34,7 @@ Route::any( '/', array( 'as' => '/', 'uses' => 'ClubSearchController@index' ) );
 Route::any( '/clubsearch/{lang?}', [ 'uses' => 'HireController@index' ] );
 Route::any( '/courier-mail', [ 'uses' => 'HireController@SendCronMail' ] );
 Route::any( '/pickup-courier-mail', [ 'uses' => 'HireController@PickupMailCron' ] );
+Route::any( '/club-courier-mail', [ 'uses' => 'AdminCCOrdersController@PickupMailCron' ] );
 Route::any( '/disputed_order_notification', [ 'uses' => 'HireController@DisputedOrderNotification' ] );
 Route::any( '/sendmandrilmail', [ 'uses' => 'HireController@sendMandrilMail' ] );
 Route::any( '/second-purchase-email', [ 'uses' => 'HireController@sendMandrilSecondMail' ] );
@@ -61,10 +62,15 @@ Route::post( '/getAjaxPreorderDetails', [ 'uses' => 'HireController@getAjaxPreor
 Route::post('/getunorderdprods',['uses'=>'AdminOrdersController@getUnorderedProds']);
 Route::post('/changeOrderItem',['uses'=>'AdminOrdersController@changeOrderItem']);
 Route::post('thankyou','CutomerOrderController@thankyounew');
+Route::any('importccdata','HireController@importcccost');
 /*
  * ClubCourier start
  */
-Route::any( '/clubcourier/home', [ 'uses' => 'ClubCourier@index' ] );
+Route::any( '/clubcourier/booking', [ 'uses' => 'ClubCourier@index' ] );
+Route::any( '/clubcourier/preview-booking', [ 'uses' => 'ClubCourier@previewBooking' ] );
+Route::any( '/clubcourier/courier_booking', [ 'uses' => 'ClubCourier@addBooking' ] );
+Route::post( '/clubcourier/thankyou', [ 'uses' => 'ClubCourier@thankyouCC' ] );
+Route::get( '/clubcourier/thankyou', [ 'uses' => 'ClubCourier@thank_you' ] );
 /*
  * ClubCourier End
  */
@@ -179,7 +185,24 @@ Route::group( [ 'middleware' => 'auth' ], function () {
     
     Route::get('/view_orders/{idOrder}',['uses'=>'AdminOrdersController@show']);
     Route::get('/view_disputed_orders/{idOrder}',['uses'=>'AdminOrdersController@viewDisputedOrders']);
-    
+
+    /*
+     * Club Courier Admin Order Management
+     */
+
+    Route::get('/club_courier_orders',['uses'=>'AdminCCOrdersController@index']);
+    Route::get('/club_courier_disputed_orders',['uses'=>'AdminCCOrdersController@disputedOrders']);
+    Route::post('/create_cc_order_by_admin',['uses'=>'ClubCourier@thank_you']);
+    Route::get('/ccorder_courier',['uses'=>'AdminCCOrdersController@courier']);
+
+    Route::get('/club_courier_search_order',['uses'=>'AdminCCOrdersController@searchOrder']);
+    Route::post('/club_courier_search_order',['uses'=>'AdminCCOrdersController@searchOrder']);
+
+    Route::post('/ccupdate_order_status',['uses'=>'AdminCCOrdersController@updateOrderStatus']);
+
+    Route::get('/view_club_courier_orders/{idOrder}',['uses'=>'AdminCCOrdersController@show']);
+    Route::get('/view_club_courier_disputed_orders/{idOrder}',['uses'=>'AdminCCOrdersController@viewDisputedOrders']);
+
     /*
      * Admin Offer Management
      */

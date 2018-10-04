@@ -64,7 +64,6 @@
                                  alt=""/>
                             <span id="hid-desc-{{$prods[$ArrCount-1]['parent-prod-id']}}" class="hidden-desc">{!!$prods[$ArrCount-1]['parent-prod-description']!!}</span>
                         </div>
-
                     </div>
                     <span>&nbsp;</span>
                     <div class="clearfix">

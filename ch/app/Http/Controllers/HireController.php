@@ -16,6 +16,7 @@ use Cookie;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Weblee\Mandrill\Mail;
+use Excel;
 
 class HireController extends Controller
 {
@@ -663,6 +664,16 @@ $request->fromDate = $this->formatDates($request->fromDate);
                 $giftInfo = $this->getListOfProdsByIds($request->productids);
             }
             return $giftInfo;
+        } elseif ($request->functionname == 'getCCOfferDetails') {
+            $offerCodeDetArr = array();
+            if (!empty($request->offercode)) {
+                $date = date('Y-m-d');
+                $offerCode = $request->offercode;
+
+                $offerCodeDetArr = $this->getVoucherDetails($date, $offerCode);
+            }
+
+            return $offerCodeDetArr;
         }
     }
 
@@ -920,6 +931,16 @@ $request->fromDate = $this->formatDates($request->fromDate);
     public function getOfferDetails($date, $offerCode)
     {
         $result = DB::table($this->DBTables['Offers'])
+            ->where('szCoupnCode', 'like', trim($offerCode))
+            ->whereDate('dt_upto', '>=', trim($date))
+            ->get();
+        return $result;
+
+    }
+
+    public function getVoucherDetails($date, $offerCode)
+    {
+        $result = DB::table($this->DBTables['CCVouchers'])
             ->where('szCoupnCode', 'like', trim($offerCode))
             ->whereDate('dt_upto', '>=', trim($date))
             ->get();
@@ -1377,6 +1398,47 @@ $request->fromDate = $this->formatDates($request->fromDate);
 
                     file_put_contents('../mandrill-third-fail.txt', date("m/d/Y h:i:s A") . "Error: " . $e->getMessage() . "\n\n");
 //                                dd($e->getMessage());
+                }
+            }
+        }
+    }
+    public function checkCCregionexist($region){
+        $ProdsArr = DB::table($this->DBTables['CCRegion'])
+            ->where('region', '=', $region)
+            ->select('id')
+            ->get();
+        return $ProdsArr;
+    }
+    public function importcccost(){
+        dd();
+        $data = Excel::load('../couriers/clubcourierprices.xlsx', function($reader) {
+        })->get();
+        if(!empty($data) && $data->count()){
+
+            foreach ($data as $key => $value) {
+                if(!empty($value->from)){
+
+                    $fromId = 0;
+                    $toId = 0;
+                    $existingRegion = $this->checkCCregionexist($value->from);
+                    if(count($existingRegion)>0){
+                        $fromId = $existingRegion[0]->id;
+                    }else{
+                        $fromId = DB::table($this->DBTables['CCRegion'])->insertGetId(
+                            ['region' => $value->from]
+                        );
+                    }
+                    $existingRegion = $this->checkCCregionexist($value->to);
+                    if(count($existingRegion)>0){
+                        $toId = $existingRegion[0]->id;
+                    }else{
+                        $toId = DB::table($this->DBTables['CCRegion'])->insertGetId(
+                            ['region' => $value->to]
+                        );
+                    }
+                    $CostInsertId = DB::table($this->DBTables['CCCost'])->insertGetId(
+                        ['from_region_id' => $fromId, 'to_region_id'=>$toId, 'small_bag_cost'=>$value->small_bag_rrp,'standard_bag_cost'=>$value->standard_bag_rrp,'large_bag_cost'=>$value->large_bag_rrp,'transit_days'=>$value->transit_time_days]
+                    );
                 }
             }
         }
