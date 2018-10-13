@@ -34,12 +34,39 @@ class ClubCourier extends Controller
     }
 
     function index(){
+        ob_end_clean();
+        ob_start();
+        session_start();
         View::share('title', 'Courier Booking');
         View::share('Page', 'booking');
         View::share('PageHeading', 'Golf Club Hire Australia');
-        /*View::share('PageDescription1', 'At The Sweet Spot Club Hire, we offer the latest to market clubs from the leading brands – Callaway and TaylorMade. We have designed our sets to cater for all levels of golfer, whether it be someone playing from scratch or someone just starting out. Hit the Sweet Spot with your next hire!');
-        View::share('PageDescription2', '');*/
-        return view('pages.clubcourier.booking');
+        $orderId = session()->get('orderId');
+        if($orderId>0){
+            $orderDetArr = DB::table($this->DBTables['CCOrders'])
+                ->where('id', '=', $orderId)
+                ->get();
+            if(count($orderDetArr)>0){
+                $orderDetails = $orderDetArr[0];
+                $bagArr = DB::table($this->DBTables['CCOrders_Products'])
+                    ->where('order_id', '=', $orderId)
+                    ->get();
+                $outShipPrice = 0;
+                $retShipPrice = 0;
+                if(count($bagArr)>0){
+                    foreach ($bagArr as $bag){
+                        $outShipPrice = $outShipPrice + $bag->sub_total_amnt_out;
+                        $retShipPrice = $retShipPrice + $bag->sub_total_amt_ret;
+                    }
+                }
+                return view('pages.clubcourier.booking', compact('orderDetails','bagArr','outShipPrice','retShipPrice'));
+            }
+        }else{
+            return view('pages.clubcourier.booking');
+        }
+    }
+
+    function prefilledBookingData(Request $request){
+
     }
 
     function getRegionById($id){
@@ -66,6 +93,7 @@ class ClubCourier extends Controller
         ob_end_clean();
         ob_start();
         session_start();
+        $orderId = session()->get('orderId');
         $response = array();
         Input::merge(array_map('trim', Input::all()));
         $allInput = $request->input();
@@ -106,7 +134,8 @@ class ClubCourier extends Controller
             $retShipArr = array();
             $outShippingCost = 0;
             $retShippingCost = 0;
-            $TotalCost = 0;
+            $transitOut = 0;
+            $transitret = 0;
             $voucherId = 0;
             $voucherName = '';
             $voucherDesc = '';
@@ -144,9 +173,11 @@ class ClubCourier extends Controller
                     $response['errors'] = "You have selected an invalid region.";
                 }
                 $retShipArr = $this->getCourierPrice($allInput['retccp_pickup_region'], $allInput['retccd_dropoff_region']);
+                $transitret = $retShipArr[0]->transit_days;
             }
             $outShipArr = $this->getCourierPrice($allInput['ccp_pickup_region'], $allInput['ccd_dropoff_region']);
-
+            $transitOut = $outShipArr[0]->transit_days;
+            $actualBagCount = 0;
             for ($i = 1; $i <= $allInput['bagcount']; $i++) {
                 if (!empty($allInput['bagTitle' . $i])) {
                     if (count($outShipArr) > 0) {
@@ -154,6 +185,8 @@ class ClubCourier extends Controller
                             $outShippingCost = $outShippingCost + $outShipArr[0]->standard_bag_cost;
                         } elseif ($allInput['bagType' . $i] == 2) {
                             $outShippingCost = $outShippingCost + $outShipArr[0]->large_bag_cost;
+                        } elseif ($allInput['bagType' . $i] == 3) {
+                            $outShippingCost = $outShippingCost + $outShipArr[0]->small_bag_cost;
                         } else {
                             $outShippingCost = $outShippingCost + 0;
                         }
@@ -167,11 +200,14 @@ class ClubCourier extends Controller
                                 $retShippingCost = $retShippingCost + $retShipArr[0]->standard_bag_cost;
                             } elseif ($allInput['bagType' . $i] == 2) {
                                 $retShippingCost = $retShippingCost + $retShipArr[0]->large_bag_cost;
+                            } elseif ($allInput['bagType' . $i] == 3) {
+                                $retShippingCost = $retShippingCost + $retShipArr[0]->small_bag_cost;
                             } else {
                                 $retShippingCost = $retShippingCost + 0;
                             }
                         }
                     }
+                    $actualBagCount++;
                 }
             }
             if($allInput['outshipment'] == 2){
@@ -181,6 +217,9 @@ class ClubCourier extends Controller
                 $retShippingCost = $retShippingCost + 20;
             }
             $SubTotalCost = $outShippingCost + $retShippingCost;
+            $InitialSubTotalCost = $SubTotalCost;
+            $multiSetDiscount = $this->getMultiSetDiscountedPrice($actualBagCount,$InitialSubTotalCost);
+            $SubTotalCost = $InitialSubTotalCost - $multiSetDiscount;
             if(!empty($allInput['voucher_code'])){
                 $voucherArr = $this->hire->getVoucherDetails(date('Y-m-d'),$allInput['voucher_code']);
                 if(count($voucherArr)>0){
@@ -201,6 +240,7 @@ class ClubCourier extends Controller
                 'user_name' => $allInput['ccp_name'],
                 'user_email' => $allInput['ccp_email'],
                 'user_phone' => $allInput['ccp_phone'],
+                'multiset_discount' => $multiSetDiscount,
                 'offer_id' => $voucherId,
                 'offer_name' => $voucherName,
                 'offer_description' => $voucherDesc,
@@ -209,7 +249,7 @@ class ClubCourier extends Controller
                 'offer_percntg' => $voucherPercentage,
                 'offer_amnt' => $voucherAmount,
                 'total_amnt' => $TotalCost,
-                'sub_total_amnt' => $SubTotalCost,
+                'sub_total_amnt' => $InitialSubTotalCost,
                 'order_status' => 0,
                 'pickup_region' => $pickupRegion,
                 'pickup_date' => $this->formatDates($allInput['ccp_date']),
@@ -247,9 +287,27 @@ class ClubCourier extends Controller
                 'return_d_note' => (!empty($allInput['retccd_collection_notes'])?$allInput['retccd_collection_notes']:''),
                 'outgoing_shipment' => (!empty($allInput['outshipment'])?$allInput['outshipment']:''),
                 'return_shipment' => ($allInput['shipOpt'] == 2?$allInput['returnshipment']:0),
-                'dtCreatedOn' => date('Y-m-d H:i:s')
+                'transit_days_out' => $transitOut,
+                'transit_days_ret' => $transitret
             ];
-            $orderId = DB::table($this->DBTables['CCOrders'])->insertGetId($InsertArr);
+            if(isset($orderId) && $orderId>0){
+                $res = DB::table($this->DBTables['CCOrders'])
+                    ->where('id', '=', $orderId)
+                    ->update($InsertArr);
+                if($res){
+                    DB::table($this->DBTables['CCOrders'])
+                        ->where('id', '=', $orderId)
+                        ->update(['dtUpdatedOn'=>date('Y-m-d H:i:s')]);
+                    DB::table($this->DBTables['CCOrders_Products'])->where('order_id', '=', $orderId)->delete();
+                }
+            }else{
+                $orderId = DB::table($this->DBTables['CCOrders'])->insertGetId($InsertArr);
+                if($orderId){
+                    DB::table($this->DBTables['CCOrders'])
+                        ->where('id', '=', $orderId)
+                        ->update(['dtCreatedOn' => date('Y-m-d H:i:s')]);
+                }
+            }
 
             if($orderId>0){
                 session()->put('orderId', $orderId);
@@ -259,7 +317,7 @@ class ClubCourier extends Controller
                             if ($allInput['bagType' . $i] == 1) {
                                 $orderSProdId = DB::table($this->DBTables['CCOrders_Products'])->insertGetId(
                                     ['order_id' => $orderId,
-                                        'product_name'=>'Standard bag (123cmx30cmx30cm)',
+                                        'product_name'=>'Standard bag (30x35x123cm)',
                                         'bag_title'=>$allInput['bagTitle' . $i],
                                         'quantity'=>1,
                                         'sub_total_amnt_out'=>$outShipArr[0]->standard_bag_cost,
@@ -275,7 +333,7 @@ class ClubCourier extends Controller
 
                                 $orderLProdId = DB::table($this->DBTables['CCOrders_Products'])->insertGetId(
                                     ['order_id' => $orderId,
-                                        'product_name'=>'Large bag (132cmx38cmx30cm)',
+                                        'product_name'=>'Large bag (35x40x123cm)',
                                         'bag_title'=>$allInput['bagTitle' . $i],
                                         'quantity'=>1,
                                         'sub_total_amnt_out'=>$outShipArr[0]->large_bag_cost,
@@ -283,6 +341,22 @@ class ClubCourier extends Controller
                                 );
                                 if($orderLProdId>0){
                                     $outShippingCost = $outShippingCost + $outShipArr[0]->large_bag_cost;
+                                }else{
+                                    $response['status'] = "ERROR";
+                                    $response['errors'] = "Something goes wrong. Please try after sometime.";
+                                }
+                            } elseif ($allInput['bagType' . $i] == 3) {
+
+                                $orderLProdId = DB::table($this->DBTables['CCOrders_Products'])->insertGetId(
+                                    ['order_id' => $orderId,
+                                        'product_name'=>'Small bag (30x30x123cm)',
+                                        'bag_title'=>$allInput['bagTitle' . $i],
+                                        'quantity'=>1,
+                                        'sub_total_amnt_out'=>$outShipArr[0]->small_bag_cost,
+                                        'sub_total_amt_ret'=>(count($retShipArr) > 0 && $allInput['shipOpt'] == 2?$retShipArr[0]->small_bag_cost:0)]
+                                );
+                                if($orderLProdId>0){
+                                    $outShippingCost = $outShippingCost + $outShipArr[0]->small_bag_cost;
                                 }else{
                                     $response['status'] = "ERROR";
                                     $response['errors'] = "Something goes wrong. Please try after sometime.";
@@ -300,6 +374,8 @@ class ClubCourier extends Controller
                                     $retShippingCost = $retShippingCost + $retShipArr[0]->standard_bag_cost;
                                 } elseif ($allInput['bagType' . $i] == 2) {
                                     $retShippingCost = $retShippingCost + $retShipArr[0]->large_bag_cost;
+                                } elseif ($allInput['bagType' . $i] == 3) {
+                                    $retShippingCost = $retShippingCost + $retShipArr[0]->small_bag_cost;
                                 } else {
                                     $retShippingCost = $retShippingCost + 0;
                                 }
@@ -317,6 +393,36 @@ class ClubCourier extends Controller
                 return redirect()->to('/clubcourier/preview-booking');
             }
         }
+    }
+
+    public function getMultiSetDiscountedPrice($setsCount, $totalPrice)
+    {
+        $DiscountList = Config::get('constants.CCDiscount');
+        $discountPrice = 0;
+        if ($setsCount > 1 && $setsCount < 11) {
+            $discountPrice = $totalPrice * $DiscountList[$setsCount] * 0.01;
+        } elseif ($setsCount > 10) {
+            $discountPrice = $totalPrice * $DiscountList['11'] * 0.01;
+        }
+
+        return $discountPrice;
+    }
+
+    function getEstimatedDeliveryTime(Request $request){
+        Input::merge(array_map('trim', Input::all()));
+        $allInput = $request->input();
+        $PickupReg = $allInput['pickup'];
+        $DropReg = $allInput['drop'];
+        $dataArr = DB::table($this->DBTables['CCCost'])
+            ->where([['from_region_id','=',$PickupReg],['to_region_id','=',$DropReg]])
+            ->get();
+        if(count($dataArr)>0) {
+            $responseData = array("code"=>200,"days" => $dataArr[0]->transit_days, "small" => $dataArr[0]->small_bag_cost, 'large' => $dataArr[0]->large_bag_cost);
+        }else{
+            $responseData = array("code"=>201);
+        }
+        header('Content-Type: application/json');
+        echo json_encode($responseData);
     }
 
     function previewBooking(){
@@ -422,7 +528,7 @@ class ClubCourier extends Controller
             return redirect()->to("/club_courier_disputed_orders")
                 ->with('success', 'Order cancelled successfully.');
         } else {
-            $supportEmail = Config::get('constants.customerSupportEmail');
+            $supportEmail = Config::get('constants.CCcustomerSupportEmail');
 //            $parm = Input::get();
             $trnsId = session()->get('transactionId');
             $PaymentRefId = (isset($request->idOrder) ? $request->idOrder : (isset($trnsId) && !empty($trnsId)?$trnsId:''));
@@ -502,6 +608,17 @@ class ClubCourier extends Controller
                                 $line[$i]->setDescription('Offer Code Applied - "' . $orderDetails->offer_Code . '"');
                                 $line[$i]->setQuantity(1);
                                 $line[$i]->setUnitAmount('-' . $orderDetails->offer_amnt);
+                                $line[$i]->setAccountCode(230);
+                                $line[$i]->setTaxType('NONE');
+                                $line[$i]->setDiscountRate(0);
+                                $invoice->addLineItem($line[$i]);
+                                $i++;
+                            }
+                            if($orderDetails->multiset_discount >0){
+                                $line[$i] = App::make('XeroInvoiceLine');
+                                $line[$i]->setDescription('Multiset Discount');
+                                $line[$i]->setQuantity(1);
+                                $line[$i]->setUnitAmount('-' . $orderDetails->multiset_discount);
                                 $line[$i]->setAccountCode(230);
                                 $line[$i]->setTaxType('NONE');
                                 $line[$i]->setDiscountRate(0);
@@ -597,6 +714,10 @@ class ClubCourier extends Controller
                     <td align="left"><strong>VOUCHER DISCOUNT</strong></td>
                     <td align="left"><b>- </b>$' . (!empty($orderDetails->offer_Code) ? $orderDetails->offer_amnt : '0.00') . '</td>
                 </tr>
+                <tr>
+                    <td align="left"><strong>MULTISET DISCOUNT</strong></td>
+                    <td align="left"><b>- </b>$' . $orderDetails->multiset_discount . '</td>
+                </tr>
 				<tr>
 					<td align="left"><strong>TOTAL</strong></td>
 					<td align="left">$' . number_format($orderDetails->total_amnt, 2, '.', ',') . '</td>
@@ -621,7 +742,7 @@ class ClubCourier extends Controller
 </table><br />
 <table cellpadding="1" cellspacing="4" border="1">
 <tr>
-<th colspan="2" align="left">Delivery Details (Pick up)</th>
+<th colspan="2" align="left">Delivery Details (Pick up) '.date('jS M Y',strtotime($orderDetails->pickup_date)).'</th>
 <th colspan="2" align="left">Delivery Details (Drop off)</th>
 </tr>
 <tr>
@@ -678,7 +799,7 @@ class ClubCourier extends Controller
 </tr>';
                         if(!empty($orderDetails->return_region)){
                             $templateData .='<tr>
-<th colspan="2" align="left">Return Delivery Details (Pick up)</th>
+<th colspan="2" align="left">Return Delivery Details (Pick up) '.date('jS M Y',strtotime($orderDetails->return_date)).'</th>
 <th colspan="2" align="left">Return Delivery Details (Drop off)</th>
 </tr>
 <tr>
@@ -767,7 +888,7 @@ class ClubCourier extends Controller
 </tr>
 <tr>
 <th align="left">Date/Time</th>
-<td align="left">' . date('d-m-Y / h:i:s A', strtotime($checkOrderExist->dtCreatedOn)) . '</td>
+<td align="left">' . date('jS M Y / h:i:s A', strtotime($checkOrderExist->dtCreatedOn)) . '</td>
 </tr>
 </table><br />';
 
@@ -778,7 +899,7 @@ class ClubCourier extends Controller
                                 $mandrillDataArr['username'] = $orderDetails->user_name;
                                 $mandrillDataArr['useremail'] = $checkOrderExist->user_email;
                                 $mandrillDataArr['orderDetail'] = $MandrillOrderData;
-                                $mandrillDataArr['templateName'] = 'Club Courier email Customer Purchase';
+                                $mandrillDataArr['templateName'] = '1st email Customer Purchase  CC';
                                 $mandrillDataArr['htmlmessage'] = 'Thank you for your booking.';
                                 $mandrillDataArr['subject'] = 'The Sweet Spot Club Courier - Order Details' . date('d-m-Y / h:i:s A', strtotime($checkOrderExist->dtCreatedOn));
 //                            $this->hire->sendMandrilMail($mandrillDataArr);
@@ -861,11 +982,12 @@ class ClubCourier extends Controller
 
     public function thankyouCC(Mail $mandrill, Request $request)
     {
+        Session::forget('orderId');
         View::share('title', 'Thank You!');
         $FirstTime = '0';
         $discountErr = '0';
         $payerid = '';
-        $supportEmail = Config::get('constants.customerSupportEmail');
+        $supportEmail = Config::get('constants.CCcustomerSupportEmail');
         $checkOrderExist = array();
         $error = '';
         $errorFlag = 0;
@@ -958,6 +1080,17 @@ class ClubCourier extends Controller
                                 $invoice->addLineItem($line[$i]);
                                 $i++;
                             }
+                            if($orderDetails->multiset_discount >0){
+                                $line[$i] = App::make('XeroInvoiceLine');
+                                $line[$i]->setDescription('Multiset Discount');
+                                $line[$i]->setQuantity(1);
+                                $line[$i]->setUnitAmount('-' . $orderDetails->multiset_discount);
+                                $line[$i]->setAccountCode(230);
+                                $line[$i]->setTaxType('NONE');
+                                $line[$i]->setDiscountRate(0);
+                                $invoice->addLineItem($line[$i]);
+                                $i++;
+                            }
                             if($orderDetails->outgoing_shipment == 2){
                                 $line[$i] = App::make('XeroInvoiceLine');
                                 $line[$i]->setDescription('Express courier - Outgoing');
@@ -1031,6 +1164,10 @@ class ClubCourier extends Controller
                     <td align="left"><strong>VOUCHER DISCOUNT</strong></td>
                     <td align="left"><b>- </b>$' . (!empty($orderDetails->offer_Code) ? $orderDetails->offer_amnt : '0.00') . '</td>
                 </tr>
+                <tr>
+                    <td align="left"><strong>MULTISET DISCOUNT</strong></td>
+                    <td align="left"><b>- </b>$' . $orderDetails->multiset_discount . '</td>
+                </tr>
 				<tr>
 					<td align="left"><strong>TOTAL</strong></td>
 					<td align="left">$' . number_format($orderDetails->total_amnt, 2, '.', ',') . '</td>
@@ -1055,7 +1192,7 @@ class ClubCourier extends Controller
 </table><br />
 <table cellpadding="1" cellspacing="4" border="1">
 <tr>
-<th colspan="2" align="left">Delivery Details (Pick up)</th>
+<th colspan="2" align="left">Delivery Details (Pick up) '.date('jS M Y',strtotime($orderDetails->pickup_date)).'</th>
 <th colspan="2" align="left">Delivery Details (Drop off)</th>
 </tr>
 <tr>
@@ -1112,7 +1249,7 @@ class ClubCourier extends Controller
 </tr>';
                         if(!empty($orderDetails->return_region)){
                             $templateData .='<tr>
-<th colspan="2" align="left">Return Delivery Details (Pick up)</th>
+<th colspan="2" align="left">Return Delivery Details (Pick up) '.date('jS M Y',strtotime($orderDetails->return_date)).'</th>
 <th colspan="2" align="left">Return Delivery Details (Drop off)</th>
 </tr>
 <tr>
@@ -1202,7 +1339,7 @@ class ClubCourier extends Controller
 </tr>
 <tr>
 <th align="left">Date/Time</th>
-<td align="left">' . date('d-m-Y / h:i:s A', strtotime($checkOrderExist->dtCreatedOn)) . '</td>
+<td align="left">' . date('jS M Y / h:i:s A', strtotime($checkOrderExist->dtCreatedOn)) . '</td>
 </tr>
 </table><br />';
 
@@ -1213,7 +1350,7 @@ class ClubCourier extends Controller
                                 $mandrillDataArr['username'] = $orderDetails->user_name;
                                 $mandrillDataArr['useremail'] = $checkOrderExist->user_email;
                                 $mandrillDataArr['orderDetail'] = $MandrillOrderData;
-                                $mandrillDataArr['templateName'] = 'Club Courier email Customer Purchase';
+                                $mandrillDataArr['templateName'] = '1st email Customer Purchase  CC';
                                 $mandrillDataArr['htmlmessage'] = 'Thank you for your booking.';
                                 $mandrillDataArr['subject'] = 'The Sweet Spot Club Courier - Order Details' . date('d-m-Y / h:i:s A', strtotime($checkOrderExist->dtCreatedOn));
 //                            $this->hire->sendMandrilMail($mandrillDataArr);

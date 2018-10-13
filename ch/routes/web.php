@@ -63,6 +63,7 @@ Route::post('/getunorderdprods',['uses'=>'AdminOrdersController@getUnorderedProd
 Route::post('/changeOrderItem',['uses'=>'AdminOrdersController@changeOrderItem']);
 Route::post('thankyou','CutomerOrderController@thankyounew');
 Route::any('importccdata','HireController@importcccost');
+Route::post( '/calculateccshipping', [ 'uses' => 'ClubCourier@getEstimatedDeliveryTime' ] );
 /*
  * ClubCourier start
  */

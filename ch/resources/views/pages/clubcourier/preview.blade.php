@@ -9,6 +9,12 @@
     </section>
     <section id="details">
         <div class="container">
+            <div class="row">
+                <div class="col-md-12 submit-btn">
+                    <button type="button" class="stripe-button-el" onclick="gotopage('{{url('clubcourier/booking')}}')">
+                        <span style="display: block; min-height: 30px;">Modify</span></button>
+                </div>
+            </div>
             <form method="POST" action="" disabled name="addShipping" autocomplete="off">
             <h3><span>Personal Details</span></h3>
                 <div class="row">
@@ -263,6 +269,9 @@
                         <div class="radio">
                             <label><input disabled type="radio" name="outshipment" value="2" {{($orderDetails->outgoing_shipment == 2?'checked':'')}}>Express courier ${{$outShipPrice + 20}}</label>
                         </div>
+                        <div id="onewayshiptime">
+                            Estimated shipment time: {{($orderDetails->transit_days_out)}} business days
+                        </div>
                     </div>
                     @if($orderDetails->return_region)
                     <div class="form-group col-sm-6 retShippment">
@@ -273,6 +282,9 @@
                         <div class="radio">
                             <label><input disabled type="radio" name="returnshipment" value="2" {{($orderDetails->return_shipment == 2?'checked':'')}}>Express courier ${{$retShipPrice + 20}}</label>
                         </div>
+                        <div id="returnshiptime">
+                            Estimated shipment time: {{($orderDetails->transit_days_ret)}} business days
+                        </div>
                     </div>
                         @endif
                 </div>
@@ -282,14 +294,19 @@
                         <input type="text" name="voucher_code" disabled id="voucher_code" value="{{$orderDetails->offer_Code}}"
                           placeholder="Voucher Code"/>
                     </div>
-                    <div class="form-group col-sm-4">
-                        <label>Discount</label>
+                    <div class="form-group col-sm-2">
+                        <label>Voucher Discount</label>
                         <input type="text" name="voucher_discount" disabled id="voucher_discount" value="{{$orderDetails->offer_amnt}}"
                                placeholder="Voucher Discount"/>
                     </div>
+                    <div class="form-group col-sm-2">
+                        <label>Multiset Discount</label>
+                        <input type="text" name="multiset_discount" disabled id="multiset_discount" value="{{$orderDetails->multiset_discount}}"
+                               placeholder="Multiset Discount"/>
+                    </div>
                     <div class="form-group col-sm-4">
                         <label>Total amount to be paid</label>
-                        <input type="text" name="total-amount" disabled id="total-amount" value="${{$orderDetails->sub_total_amnt}} - ${{$orderDetails->offer_amnt}} = ${{$orderDetails->sub_total_amnt - $orderDetails->offer_amnt}}"
+                        <input type="text" name="total-amount" disabled id="total-amount" value="${{$orderDetails->sub_total_amnt}} - ${{$orderDetails->offer_amnt}} - ${{$orderDetails->multiset_discount}} = ${{$orderDetails->sub_total_amnt - $orderDetails->offer_amnt - $orderDetails->multiset_discount}}"
                                placeholder="Total Amount"/>
                     </div>
                 </div>
@@ -313,6 +330,7 @@
                 file_put_contents('../stripe_log_check.txt', $log, FILE_APPEND);
                 ?>
                 <form action="{{ URL::to('/clubcourier/thankyou')}}" method="POST">
+
                     <script
                             src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                             data-key="pk_test_GgDsO4jfJYgodWomCEg6TQYg"

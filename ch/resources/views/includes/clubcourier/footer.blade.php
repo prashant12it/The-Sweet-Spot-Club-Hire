@@ -17,7 +17,7 @@
                         </p>
                         <ul class="list-unstyled list-inline ">
                             <li>
-                                <a href="#" class="nav-facebook">
+                                <a href="http://www.facebook.com/sharer.php?u=https://www.tssclubhire.com/courierdelivery-zones/&t=TSS%20Club%20Courier%20%7C%20Our%20Delivery%20Zones" class="nav-facebook">
                                     <i class="fa fa-facebook" aria-hidden="true"></i>
                                     <div class="popup-facebook">
                                         <div class="popup-insider">
@@ -27,7 +27,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-twitter">
+                                <a href="https://twitter.com/share?text=TSS%20Club%20Courier%20%7C%20Our%20Delivery%20Zones&url=https://www.tssclubhire.com/?p=5357" class="nav-twitter">
                                     <i class="fa fa-twitter" aria-hidden="true"></i>
                                     <div class="popup-facebook popup-twitter">
                                         <div class="popup-insider">
@@ -37,7 +37,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="nav-linkedin">
+                                <a href="http://linkedin.com/shareArticle?mini=true&title=TSS%20Club%20Courier%20%7C%20Our%20Delivery%20Zones&url=https://www.tssclubhire.com/courierdelivery-zones/" class="nav-linkedin">
                                     <i class="fa fa-linkedin" aria-hidden="true"></i>
                                     <div class="popup-facebook popup-linkedin">
                                         <div class="popup-insider">
@@ -53,14 +53,13 @@
                     <div class="second-block">
                         <h3>information</h3>
                         <ul class="footer-navigation">
-                            <li><a href="https://www.tssclubhire.com/shop/../destinations-delivery">Destinations &amp; Delivery</a></li>
-                            <li><a href="https://www.tssclubhire.com/shop/../privacy-policy">Privacy Policy</a></li>
-                            <li><a href="https://www.tssclubhire.com/shop/../terms-of-service">Terms of service</a></li>
-                            <li><a href="https://www.tssclubhire.com/shop/../pricing">Pricing</a></li>
-                            <li><a href="https://www.tssclubhire.com/shop/../affiliate">Affiliates</a></li>
-                            <li><a href="https://www.tssclubhire.com/shop/../main-blog">Blog</a></li>
-                            <li><a href="https://www.tssclubhire.com/shop/../contact">Contact</a></li>
-                            <li><a href="https://www.tssclubhire.com/shop/../about-us">About Us</a></li>
+                            <li><a href="{{url('../courierdelivery-zones/')}}">Destinations &amp; Delivery</a></li>
+                            <li><a href="{{url('../clubcourier-privacy-policy/')}}">Privacy Policy</a></li>
+                            <li><a href="{{url('../terms-of-service-tssclubcourier/')}}">Terms of service</a></li>
+                            <li><a href="{{url('../courierpricing/')}}">Pricing</a></li>
+                            <li><a href="#">Affiliates</a></li>
+                            <li><a href="{{url('../contact-clubcourier/')}}">Contact</a></li>
+                            <li><a href="{{url('../aboutus-tssclubcourier/')}}">About Us</a></li>
                         </ul>
                     </div>
                 </div>
@@ -88,9 +87,9 @@
                     <div class="fourth-block">
                         <h3>Like Us On Social Media</h3>
                         <ul class="list-unstyled list-inline">
-                            <li><a href="#" ><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#" > <i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                            <li><a href="#" ><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="http://www.facebook.com/tssclubcourier" ><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="http://www.instagram.com/tssclubcourier" ><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                            <li><a href="http://twitter.com/tssclubcourier" > <i class="fa fa-twitter" aria-hidden="true"></i></a></li>
                         </ul>
                     </div>
                 </div>

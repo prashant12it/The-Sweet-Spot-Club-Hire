@@ -376,6 +376,7 @@ class CutomerOrderController extends Controller
             $totalProductAmount = 0;
             $offerAmount = 0;
             $shippingAmount = 0.00;
+            $setCount = $this->hire->getCartSetCount($order_reference_id);
             $addedProductPriceAry = DB::table($DBTables['Pre_Orders_Products'])
                 ->join($DBTables['Products'], $DBTables['Pre_Orders_Products'] . '.product_id', '=', $DBTables['Products'] . '.id')
                 ->join($DBTables['Pre_Orders'], $DBTables['Pre_Orders'] . '.order_reference_id', '=', $DBTables['Pre_Orders_Products'] . '.order_reference_id')
@@ -537,7 +538,7 @@ class CutomerOrderController extends Controller
             $request->pickupState = $request->pickup_state_id;
             $request->dropoffState = $request->delvr_state_id;
 
-                $updateOrderAmount['shipping_amnt'] = ($this->hire->calculateshipping($request)>0?$this->hire->calculateshipping($request):0)*$paidItemsCount;
+                $updateOrderAmount['shipping_amnt'] = ($this->hire->calculateshipping($request)>0?$this->hire->calculateshipping($request):0)*$setCount;
                 $orderTotalAmount = $orderTotalAmount + $request->shipping_amnt;
                 $updateOrderAmount['total_amnt'] = $orderTotalAmount - $offerAmount - $tssDiscountAmount;
 
@@ -1341,6 +1342,36 @@ class CutomerOrderController extends Controller
             ->get();
         return $productAry;
     }
+    public function getCartProdIdsByRefId($orderRefId)
+    {
+        $cartProdIdArr = DB::table($this->DBTables['Pre_Orders_Products'])
+            ->where('order_reference_id', '=', $orderRefId)
+            ->select('product_id')
+            ->get();
+
+        return $cartProdIdArr;
+    }
+
+    public function checkIfproductBooked($orderRefId,$orderDetails){
+        $cartProdIdsArr = $this->getCartProdIdsByRefId($orderRefId);
+
+        if(count($cartProdIdsArr)>0){
+            $servicingDays = Config::get('constants.stateServicingDays');
+            $CleaningDays = $servicingDays[$orderDetails->state_id];
+            $cartProdCount = 0;
+            foreach ($cartProdIdsArr as $childProdId) {
+                $ProdDataArr = $this->hire->checkChildForBookingSec($childProdId->product_id, $orderDetails->dt_book_from, $orderDetails->dt_book_upto, $CleaningDays);
+                if ($ProdDataArr) {
+                    $cartProdCount++;
+                }
+            }
+            if($cartProdCount == count($cartProdIdsArr)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
 
     public function orderPreview()
     {
@@ -1362,11 +1393,14 @@ class CutomerOrderController extends Controller
             $NabConfig = Config::get('constants.NAB-Transact-Config');
             $order_reference_id = $_COOKIE['order_reference_id'];
             if (trim($order_reference_id) != '') {
+
                 $cartDetailArr = $this->hire->getCartByRefId($_COOKIE['order_reference_id']);
                 $cartDetailArr = $this->hire->getCart($cartDetailArr);
                 $preOrderArr = $this->hire->getPreOrderDetails($_COOKIE['order_reference_id']);
                 $orderDetails = $preOrderArr[0];
-
+                if(!$this->checkIfproductBooked($_COOKIE['order_reference_id'],$orderDetails)){
+                    return redirect()->to('/insurance');
+                }
                 $insurance = 0;
                 if (!empty($orderDetails)) {
                     $insurance = $orderDetails->insurance_amnt;
@@ -1821,6 +1855,10 @@ class CutomerOrderController extends Controller
         $error = '';
         $errorFlag = 0;
         $order_reference_id = (isset($request->idOrder) ? $request->idOrder:(isset($_COOKIE['order_reference_id']) && !empty($_COOKIE['order_reference_id']) ? $_COOKIE['order_reference_id'] : ''));
+        $orderDetailsAry = $this->hire->getPreOrderDetails($order_reference_id);
+        if(!$this->checkIfproductBooked($order_reference_id,$orderDetailsAry[0])){
+            return redirect()->to('/insurance');
+        }
         /*Stripe Payment*/
         Stripe::setApiKey(env('STRIPE_SECRET'));
         // Get the credit card details submitted by the form
@@ -1858,7 +1896,6 @@ class CutomerOrderController extends Controller
                     $invoice = App::make('XeroInvoice');
                     $tssDiscountPercentage = Config::get('constants.TssDiscount');
                     $DiscountList = Config::get('constants.Discount');
-                    $orderDetailsAry = $this->hire->getPreOrderDetails($order_reference_id);
 
                     if (count($orderDetailsAry) > 0) {
                         $orderDetails = $orderDetailsAry[0];

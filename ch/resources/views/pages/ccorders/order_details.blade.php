@@ -125,6 +125,7 @@
                                             </td>
                                             <td width="50%">
                                                 <strong>Outgoing Shipping Courier Charges($) : </strong>{{number_format(($orderDetails->outgoing_shipment==2?20:0),2)}}<br/><br/>
+                                                <strong>Multiset Discount($) : </strong>{{number_format(($orderDetails->multiset_discount),2)}}<br/><br/>
                                                 @if(!empty($orderDetails->return_region))
                                                 <strong>Return Shipping Courier Charges($) : </strong>{{number_format(($orderDetails->return_shipment==2?20:0),2)}}<br/><br/>
                                                 @endif

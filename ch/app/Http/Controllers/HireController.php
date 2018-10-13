@@ -324,6 +324,15 @@ $request->fromDate = $this->formatDates($request->fromDate);
 
         return $PreOrderDetailArr;
     }
+
+    public function getOrderDetails($orderId)
+    {
+        $OrderDetailArr = DB::table($this->DBTables['Orders'])
+            ->where('id', '=', $orderId)
+            ->get();
+
+        return $OrderDetailArr;
+    }
     public function getAjaxPreorderDetails(Request $request){
         $preorderResult = $this->getPreOrderDetails($request->order_reference_id);
         if(count($preorderResult)>0){
@@ -590,13 +599,45 @@ $request->fromDate = $this->formatDates($request->fromDate);
             ->join($this->DBTables['Products'] . ' as P', 'BP.product_id', '=', 'P.id')
             ->where('P.disable', '=', 0)
             ->where('BP.product_id', '=', (int)$childProdId)
-            ->whereBetween('dt_booked_from', [
+            ->whereBetween('BP.dt_booked_from', [
                 date('Y-m-d', strtotime($fromDate. ' -' . $extendedDays . ' days')),
                 date('Y-m-d', strtotime($toDate . ' -' . $extendedDays . ' days'))
             ])
-            ->select('P.*', 'BP.dt_booked_from', 'BP.dt_booked_upto')
+            ->select('P.*', 'BP.dt_booked_from', 'BP.dt_booked_upto', 'BP.order_id')
             ->get();
         return $CheckProdArr;
+    }
+    public function checkChildForBookingSec($childProdId, $fromDate, $toDate, $extendedDays)
+    {
+        $servicingDays = Config::get('constants.stateServicingDays');
+        $CleaningDays = 0;
+        $CheckProdArr = DB::table($this->DBTables['Booked_Products'] . ' as BP')
+            ->join($this->DBTables['Products'] . ' as P', 'BP.product_id', '=', 'P.id')
+            ->where('P.disable', '=', 0)
+            ->where('BP.product_id', '=', (int)$childProdId)
+            ->select('P.*', 'BP.dt_booked_from', 'BP.dt_booked_upto', 'BP.order_id')
+            ->get();
+        if(count($CheckProdArr)>0){
+            $countValid = 0;
+            foreach ($CheckProdArr as $prods){
+                $OrderDet = $this->getOrderDetails($prods->order_id);
+                if(count($OrderDet)>0){
+                    $CleaningDays = $servicingDays[$OrderDet[0]->state_id];
+                }
+                if(strtotime($prods->dt_booked_upto . ' +' . $CleaningDays . ' days') < strtotime($fromDate)){
+                    $countValid++;
+                }elseif (strtotime($prods->dt_booked_from) > strtotime($toDate.' +'.$extendedDays.' days')){
+                    $countValid++;
+                }
+            }
+            if($countValid == count($CheckProdArr)){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
     }
 
     public function getUpsellProducts()
@@ -619,9 +660,9 @@ $request->fromDate = $this->formatDates($request->fromDate);
             $BookedProdsArr = array();
             if (!empty($request->childProdIdArr)) {
                 foreach ($request->childProdIdArr as $childProdId) {
-                    $ProdDataArr = $this->checkChildForBooking($childProdId['product_id'], $request->fromDate, $request->toDate, $request->extendedDays);
-                    if (count($ProdDataArr) > 0) {
-                        array_push($BookedProdsArr, $ProdDataArr[0]->id);
+                    $ProdDataArr = $this->checkChildForBookingSec($childProdId['product_id'], $request->fromDate, $request->toDate, $request->extendedDays);
+                    if (!$ProdDataArr) {
+                        array_push($BookedProdsArr, $childProdId['product_id']);
                     }
                 }
             }
@@ -1414,7 +1455,6 @@ $request->fromDate = $this->formatDates($request->fromDate);
         $data = Excel::load('../couriers/clubcourierprices.xlsx', function($reader) {
         })->get();
         if(!empty($data) && $data->count()){
-
             foreach ($data as $key => $value) {
                 if(!empty($value->from)){
 

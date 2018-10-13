@@ -51,7 +51,7 @@
                                     </tr>
                                     <tr>
                                         <td><b>Date/Time</b></td>
-                                        <td>{{date('d-m-Y / h:i:s A',strtotime($checkOrderExist->dtCreatedOn))}}</td>
+                                        <td>{{date('jS M Y / h:i:s A',strtotime($checkOrderExist->dtCreatedOn))}}</td>
                                     </tr>
                                 </table>
                             </div>

@@ -16,13 +16,14 @@
 
     $(document).ready(function() {
 
+        $('.datepicker').datepicker({
+            autoclose: true,
+            daysOfWeekDisabled: [0,6]
+        });
 //        getsiteFooter('http://tssclubhire.com/wordpress/');
         scrollToDivOnHirePage();
         $('.navbar-toggle').on('click', function(e) {
             $('body').add(this).toggleClass('over-hide');
-        });
-        $('.datepicker').datepicker({
-            autoclose: true
         });
         /*var bkfromDate = $('#bkfromDate');
         bkfromDate.datepicker();
