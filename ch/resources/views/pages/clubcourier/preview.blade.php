@@ -264,10 +264,10 @@
                     <div class="form-group col-sm-6">
                         <h4><b>Outgoing Shipment</b></h4>
                         <div class="radio">
-                            <label><input disabled type="radio" name="outshipment" value="1" {{($orderDetails->outgoing_shipment == 1?'checked':'')}}>Standard courier ${{$outShipPrice}}</label>
+                            <label><input disabled type="radio" name="outshipment" value="1" {{($orderDetails->outgoing_shipment == 1?'checked':'')}}>Standard courier ${{(number_format($outShipPrice,2,'.',''))}}</label>
                         </div>
                         <div class="radio">
-                            <label><input disabled type="radio" name="outshipment" value="2" {{($orderDetails->outgoing_shipment == 2?'checked':'')}}>Express courier ${{$outShipPrice + 20}}</label>
+                            <label><input disabled type="radio" name="outshipment" value="2" {{($orderDetails->outgoing_shipment == 2?'checked':'')}}>Express courier ${{(number_format($outShipPrice + 20,2,'.',''))}}</label>
                         </div>
                         <div id="onewayshiptime">
                             Estimated shipment time: {{($orderDetails->transit_days_out)}} business days
@@ -277,10 +277,10 @@
                     <div class="form-group col-sm-6 retShippment">
                         <h4><b>Return Shipment</b></h4>
                         <div class="radio">
-                            <label><input disabled type="radio" name="returnshipment" value="1" {{($orderDetails->return_shipment == 1?'checked':'')}}>Standard courier ${{$retShipPrice}}</label>
+                            <label><input disabled type="radio" name="returnshipment" value="1" {{($orderDetails->return_shipment == 1?'checked':'')}}>Standard courier ${{(number_format($retShipPrice,2,'.',''))}}</label>
                         </div>
                         <div class="radio">
-                            <label><input disabled type="radio" name="returnshipment" value="2" {{($orderDetails->return_shipment == 2?'checked':'')}}>Express courier ${{$retShipPrice + 20}}</label>
+                            <label><input disabled type="radio" name="returnshipment" value="2" {{($orderDetails->return_shipment == 2?'checked':'')}}>Express courier ${{(number_format($retShipPrice + 20,2,'.',''))}}</label>
                         </div>
                         <div id="returnshiptime">
                             Estimated shipment time: {{($orderDetails->transit_days_ret)}} business days
@@ -296,17 +296,17 @@
                     </div>
                     <div class="form-group col-sm-2">
                         <label>Voucher Discount</label>
-                        <input type="text" name="voucher_discount" disabled id="voucher_discount" value="{{$orderDetails->offer_amnt}}"
+                        <input type="text" name="voucher_discount" disabled id="voucher_discount" value="{{(number_format($orderDetails->offer_amnt,2,'.',''))}}"
                                placeholder="Voucher Discount"/>
                     </div>
                     <div class="form-group col-sm-2">
                         <label>Multiset Discount</label>
-                        <input type="text" name="multiset_discount" disabled id="multiset_discount" value="{{$orderDetails->multiset_discount}}"
+                        <input type="text" name="multiset_discount" disabled id="multiset_discount" value="{{(number_format($orderDetails->multiset_discount,2,'.',''))}}"
                                placeholder="Multiset Discount"/>
                     </div>
                     <div class="form-group col-sm-4">
                         <label>Total amount to be paid</label>
-                        <input type="text" name="total-amount" disabled id="total-amount" value="${{$orderDetails->sub_total_amnt}} - ${{$orderDetails->offer_amnt}} - ${{$orderDetails->multiset_discount}} = ${{$orderDetails->sub_total_amnt - $orderDetails->offer_amnt - $orderDetails->multiset_discount}}"
+                        <input type="text" name="total-amount" disabled id="total-amount" value="${{(number_format($orderDetails->sub_total_amnt,2,'.',''))}} - ${{(number_format($orderDetails->offer_amnt,2,'.',''))}} - ${{(number_format($orderDetails->multiset_discount,2,'.',''))}} = ${{(number_format($orderDetails->sub_total_amnt - $orderDetails->offer_amnt - $orderDetails->multiset_discount,2,'.',''))}}"
                                placeholder="Total Amount"/>
                     </div>
                 </div>
@@ -333,7 +333,7 @@
 
                     <script
                             src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                            data-key="pk_test_GgDsO4jfJYgodWomCEg6TQYg"
+                            data-key="pk_live_NJvVMdwtbtGVAyB6orFniC8k"
                             data-amount="{{number_format($orderDetails->total_amnt,2,'.','')*100}}"
                             data-name="The Sweet Spot Club Courier"
                             data-description="TSS Club Courier booking Charges."

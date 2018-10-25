@@ -4,6 +4,7 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
+                    <span class="logo"><a href="{{url('../clubcourier/')}}"><img src="../frontend/images/logo-blue.png" alt="Golf Club Courier Australia" width="120" height="auto"></a></span>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
                     </button>

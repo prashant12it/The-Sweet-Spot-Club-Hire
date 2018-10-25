@@ -41,7 +41,7 @@ header {
     border-left: none;
     border-right: none;
     border-top-color: transparent;
-    height:52px;
+    height:120px;
     box-shadow: 0 0 2px 1px rgba(0,0,0,0.1);
     background: #f8f8f8;
     color: #999999;
@@ -117,7 +117,7 @@ header .navbar-default .navbar-nav>li:last-child>a{
 #hire-page-banner{display: none}
 #partner-page #hire-page-banner{display: block}
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
-
+    margin-top: 30px;
     float: right;
 }
 .navbar-brand{max-width:170px;}
@@ -1981,6 +1981,7 @@ footer {
 @media screen and (max-width: 1100px){
     .first-block ul li a{min-width: 45px;}}
 @media screen and (max-width: 767px){
+    .logo img{width: 85px; margin-left: 20px}
     .fa-mail-forward{
         width: 120px;
         height: 120px;

@@ -54,16 +54,17 @@
                             <option value="6" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Melbourne'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Melbourne</option>
                             <option value="" disabled>South Australia</option>
                             <option value="1" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Adelaide CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Adelaide CBD/Metro</option>
-                            <option value="12" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Adelaide'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Adelaide</option>
+                            <option value="13" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Adelaide'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Adelaide</option>
                             <option value="" disabled>New South Wales</option>
                             <option value="5" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Sydney CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Sydney CBD/Metro</option>
                             <option value="4" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Sydney'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Sydney</option>
                             <option value="" disabled>Queensland</option>
                             <option value="3" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Brisbane/Gold Coast Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Brisbane/Gold Coast Metro</option>
                             <option value="2" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Brisbane'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Brisbane</option>
+                            <option value="12" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Sunshine Coast'?'selected="selected"':'')}}>&nbsp; &nbsp;Sunshine Coast</option>
                             <option value="" disabled>Tasmania</option>
                             <option value="9" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Hobart CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart CBD/Metro</option>
-                            <option value="13" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Hobart Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart Outer</option>
+                            <option value="14" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Hobart Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart Outer</option>
                             <option value="8" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Bridport'?'selected="selected"':'')}}>&nbsp; &nbsp;Bridport</option>
                             <option value="" disabled>Western Australia</option>
                             <option value="11" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Perth CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth CBD/Metro</option>
@@ -172,24 +173,25 @@
                         <select name="ccd_dropoff_region" id="ccd_dropoff_region" onchange="calculateTransitDays('1')" required="required">
                             <option value="">Select drop off</option>
                             <option value="" disabled>Victoria</option>
-                            <option value="7" {{(isset($orderDetails) && $orderDetails->destination_region == 'Melbourne CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Melbourne CBD/Metro</option>
-                            <option value="6" {{(isset($orderDetails) && $orderDetails->destination_region == 'Outer Melbourne'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Melbourne</option>
+                            <option value="7" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Melbourne CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Melbourne CBD/Metro</option>
+                            <option value="6" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Melbourne'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Melbourne</option>
                             <option value="" disabled>South Australia</option>
-                            <option value="1" {{(isset($orderDetails) && $orderDetails->destination_region == 'Adelaide CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Adelaide CBD/Metro</option>
-                            <option value="12" {{(isset($orderDetails) && $orderDetails->destination_region == 'Outer Adelaide'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Adelaide</option>
+                            <option value="1" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Adelaide CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Adelaide CBD/Metro</option>
+                            <option value="13" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Adelaide'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Adelaide</option>
                             <option value="" disabled>New South Wales</option>
-                            <option value="5" {{(isset($orderDetails) && $orderDetails->destination_region == 'Sydney CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Sydney CBD/Metro</option>
-                            <option value="4" {{(isset($orderDetails) && $orderDetails->destination_region == 'Outer Sydney'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Sydney</option>
+                            <option value="5" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Sydney CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Sydney CBD/Metro</option>
+                            <option value="4" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Sydney'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Sydney</option>
                             <option value="" disabled>Queensland</option>
-                            <option value="3" {{(isset($orderDetails) && $orderDetails->destination_region == 'Brisbane/Gold Coast Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Brisbane/Gold Coast Metro</option>
-                            <option value="2" {{(isset($orderDetails) && $orderDetails->destination_region == 'Outer Brisbane'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Brisbane</option>
+                            <option value="3" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Brisbane/Gold Coast Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Brisbane/Gold Coast Metro</option>
+                            <option value="2" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Brisbane'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Brisbane</option>
+                            <option value="12" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Sunshine Coast'?'selected="selected"':'')}}>&nbsp; &nbsp;Sunshine Coast</option>
                             <option value="" disabled>Tasmania</option>
-                            <option value="9" {{(isset($orderDetails) && $orderDetails->destination_region == 'Hobart CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart CBD/Metro</option>
-                            <option value="13" {{(isset($orderDetails) && $orderDetails->destination_region == 'Hobart Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart Outer</option>
-                            <option value="8" {{(isset($orderDetails) && $orderDetails->destination_region == 'Bridport'?'selected="selected"':'')}}>&nbsp; &nbsp;Bridport</option>
+                            <option value="9" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Hobart CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart CBD/Metro</option>
+                            <option value="14" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Hobart Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart Outer</option>
+                            <option value="8" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Bridport'?'selected="selected"':'')}}>&nbsp; &nbsp;Bridport</option>
                             <option value="" disabled>Western Australia</option>
-                            <option value="11" {{(isset($orderDetails) && $orderDetails->destination_region == 'Perth CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth CBD/Metro</option>
-                            <option value="10" {{(isset($orderDetails) && $orderDetails->destination_region == 'Perth Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth Outer</option>
+                            <option value="11" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Perth CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth CBD/Metro</option>
+                            <option value="10" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Perth Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth Outer</option>
                             {{--@if ($countriesAry->count() > 0)
                                 @foreach ($countriesAry as $country)
                                     <option value="{{$country->id}}" {{(old('buyer_country') == $country->id ? "selected=selected":($country->id == '13'?"selected=selected":""))}}>{{$country->name}}</option>
@@ -370,24 +372,25 @@
                             <select name="retccp_pickup_region" id="retccp_pickup_region" onchange="calculateTransitDays('2')" class="retele" {{(isset($orderDetails) && !empty($orderDetails->return_region)?'':'disabled')}} required="required">
                                 <option value="">Select drop off</option>
                                 <option value="" disabled>Victoria</option>
-                                <option value="7" {{(isset($orderDetails) && $orderDetails->return_region == 'Melbourne CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Melbourne CBD/Metro</option>
-                                <option value="6" {{(isset($orderDetails) && $orderDetails->return_region == 'Outer Melbourne'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Melbourne</option>
+                                <option value="7" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Melbourne CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Melbourne CBD/Metro</option>
+                                <option value="6" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Melbourne'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Melbourne</option>
                                 <option value="" disabled>South Australia</option>
-                                <option value="1" {{(isset($orderDetails) && $orderDetails->return_region == 'Adelaide CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Adelaide CBD/Metro</option>
-                                <option value="12" {{(isset($orderDetails) && $orderDetails->return_region == 'Outer Adelaide'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Adelaide</option>
+                                <option value="1" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Adelaide CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Adelaide CBD/Metro</option>
+                                <option value="13" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Adelaide'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Adelaide</option>
                                 <option value="" disabled>New South Wales</option>
-                                <option value="5" {{(isset($orderDetails) && $orderDetails->return_region == 'Sydney CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Sydney CBD/Metro</option>
-                                <option value="4" {{(isset($orderDetails) && $orderDetails->return_region == 'Outer Sydney'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Sydney</option>
+                                <option value="5" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Sydney CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Sydney CBD/Metro</option>
+                                <option value="4" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Sydney'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Sydney</option>
                                 <option value="" disabled>Queensland</option>
-                                <option value="3" {{(isset($orderDetails) && $orderDetails->return_region == 'Brisbane/Gold Coast Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Brisbane/Gold Coast Metro</option>
-                                <option value="2" {{(isset($orderDetails) && $orderDetails->return_region == 'Outer Brisbane'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Brisbane</option>
+                                <option value="3" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Brisbane/Gold Coast Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Brisbane/Gold Coast Metro</option>
+                                <option value="2" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Brisbane'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Brisbane</option>
+                                <option value="12" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Sunshine Coast'?'selected="selected"':'')}}>&nbsp; &nbsp;Sunshine Coast</option>
                                 <option value="" disabled>Tasmania</option>
-                                <option value="9" {{(isset($orderDetails) && $orderDetails->return_region == 'Hobart CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart CBD/Metro</option>
-                                <option value="13" {{(isset($orderDetails) && $orderDetails->return_region == 'Hobart Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart Outer</option>
-                                <option value="8" {{(isset($orderDetails) && $orderDetails->return_region == 'Bridport'?'selected="selected"':'')}}>&nbsp; &nbsp;Bridport</option>
+                                <option value="9" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Hobart CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart CBD/Metro</option>
+                                <option value="14" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Hobart Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart Outer</option>
+                                <option value="8" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Bridport'?'selected="selected"':'')}}>&nbsp; &nbsp;Bridport</option>
                                 <option value="" disabled>Western Australia</option>
-                                <option value="11" {{(isset($orderDetails) && $orderDetails->return_region == 'Perth CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth CBD/Metro</option>
-                                <option value="10" {{(isset($orderDetails) && $orderDetails->return_region == 'Perth Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth Outer</option>
+                                <option value="11" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Perth CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth CBD/Metro</option>
+                                <option value="10" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Perth Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth Outer</option>
 
                             </select>
                             @if ($errors->has('retccp_pickup_region'))
@@ -499,24 +502,25 @@
                             <select name="retccd_dropoff_region" id="retccd_dropoff_region" onchange="calculateTransitDays('2')" class="retele"  {{(isset($orderDetails) && !empty($orderDetails->return_region)?'':'disabled')}} required="required">
                                 <option value="">Select drop off</option>
                                 <option value="" disabled>Victoria</option>
-                                <option value="7" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Melbourne CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Melbourne CBD/Metro</option>
-                                <option value="6" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Outer Melbourne'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Melbourne</option>
+                                <option value="7" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Melbourne CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Melbourne CBD/Metro</option>
+                                <option value="6" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Melbourne'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Melbourne</option>
                                 <option value="" disabled>South Australia</option>
-                                <option value="1" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Adelaide CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Adelaide CBD/Metro</option>
-                                <option value="12" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Outer Adelaide'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Adelaide</option>
+                                <option value="1" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Adelaide CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Adelaide CBD/Metro</option>
+                                <option value="13" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Adelaide'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Adelaide</option>
                                 <option value="" disabled>New South Wales</option>
-                                <option value="5" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Sydney CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Sydney CBD/Metro</option>
-                                <option value="4" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Outer Sydney'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Sydney</option>
+                                <option value="5" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Sydney CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Sydney CBD/Metro</option>
+                                <option value="4" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Sydney'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Sydney</option>
                                 <option value="" disabled>Queensland</option>
-                                <option value="3" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Brisbane/Gold Coast Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Brisbane/Gold Coast Metro</option>
-                                <option value="2" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Outer Brisbane'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Brisbane</option>
+                                <option value="3" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Brisbane/Gold Coast Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Brisbane/Gold Coast Metro</option>
+                                <option value="2" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Outer Brisbane'?'selected="selected"':'')}}>&nbsp; &nbsp;Outer Brisbane</option>
+                                <option value="12" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Sunshine Coast'?'selected="selected"':'')}}>&nbsp; &nbsp;Sunshine Coast</option>
                                 <option value="" disabled>Tasmania</option>
-                                <option value="9" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Hobart CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart CBD/Metro</option>
-                                <option value="13" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Hobart Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart Outer</option>
-                                <option value="8" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Bridport'?'selected="selected"':'')}}>&nbsp; &nbsp;Bridport</option>
+                                <option value="9" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Hobart CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart CBD/Metro</option>
+                                <option value="14" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Hobart Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Hobart Outer</option>
+                                <option value="8" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Bridport'?'selected="selected"':'')}}>&nbsp; &nbsp;Bridport</option>
                                 <option value="" disabled>Western Australia</option>
-                                <option value="11" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Perth CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth CBD/Metro</option>
-                                <option value="10" {{(isset($orderDetails) && $orderDetails->return_d_region == 'Perth Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth Outer</option>
+                                <option value="11" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Perth CBD/Metro'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth CBD/Metro</option>
+                                <option value="10" {{(isset($orderDetails) && $orderDetails->pickup_region == 'Perth Outer'?'selected="selected"':'')}}>&nbsp; &nbsp;Perth Outer</option>
                             </select>
                             @if ($errors->has('retccd_dropoff_region'))
                                 <span class="help-block err">

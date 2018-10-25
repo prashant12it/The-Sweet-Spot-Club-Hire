@@ -993,7 +993,7 @@ class ClubCourier extends Controller
         $errorFlag = 0;
         $order_reference_id = (isset($request->order_reference_id) ? $request->order_reference_id:0);
         /*Stripe Payment*/
-        Stripe::setApiKey(env('STRIPE_SECRET_DEV'));
+        Stripe::setApiKey(env('STRIPE_SECRET'));
         // Get the credit card details submitted by the form
         $input = Input::all();
         $token = Input::get('stripeToken');

@@ -605,6 +605,17 @@ $request->fromDate = $this->formatDates($request->fromDate);
             ])
             ->select('P.*', 'BP.dt_booked_from', 'BP.dt_booked_upto', 'BP.order_id')
             ->get();
+        /*if (empty($CheckProdArr[0])) {
+            $ArrtibSetArr = $this->getProdAttribsByProdId($childArr->id);
+            if(count($ArrtibSetArr)>0){
+                foreach ($ArrtibSetArr as $attrib){
+                    if($attrib->attrib_name == 'Handicap'){
+                        $childArr->handicap = $attrib->value;
+                    }
+                }
+            }
+            array_push($availableProdsArr, $childArr);
+        }*/
         return $CheckProdArr;
     }
     public function checkChildForBookingSec($childProdId, $fromDate, $toDate, $extendedDays)
@@ -1451,7 +1462,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $ProdsArr;
     }
     public function importcccost(){
-        dd();
+//        dd();
         $data = Excel::load('../couriers/clubcourierprices.xlsx', function($reader) {
         })->get();
         if(!empty($data) && $data->count()){
