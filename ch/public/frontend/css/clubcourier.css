@@ -1780,7 +1780,11 @@ footer .col-sm-3 form input:-moz-placeholder { /* Firefox 18- */
     position:absolute;
     content:"*";
     top:0;
-    /*margin-left: -10px*/
+}
+#details form div label.not-req:after{
+    position:absolute;
+    content:"";
+    top:0;
 }
 
 #details form .form-group input ,#details form .form-group select {
@@ -1816,6 +1820,10 @@ input.check-box {
 .submit-btn button.stripe-button-el span,
 .submit-btn button.stripe-button-el{
     background-color: #000 !important; padding: 6px 12px !important; font-size: 17px; border-color: #000 !important; visibility: visible !important; background-image: none !important;
+}
+#cc-stripe-pay-btn button.stripe-button-el span,
+#cc-stripe-pay-btn button.stripe-button-el{
+    padding: 6px 14px !important; font-size: 16px;
 }
 .submit-btn button.stripe-button-el span{
     box-shadow: none !important; line-height: inherit !important; height: auto !important;

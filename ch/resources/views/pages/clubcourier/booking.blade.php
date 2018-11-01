@@ -12,7 +12,7 @@
             <form method="POST" action="{{ url('/clubcourier/courier_booking') }}" name="addShipping" autocomplete="off">
                 <h3><span>Personal Details</span></h3>
                 <div class="row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>Name</label>
                         <input type="text" name="ccp_name" value="{{(old('ccp_name')?old('ccp_name'):(isset($orderDetails) && $orderDetails->user_name?$orderDetails->user_name:''))}}"
                                required="required" placeholder="Name"/>
@@ -22,7 +22,7 @@
                                     </span>
                         @endif
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>Email Address</label>
                         <input type="email" name="ccp_email" value="{{(old('ccp_email')?old('ccp_email'):(isset($orderDetails) && $orderDetails->user_email?$orderDetails->user_email:''))}}"
                                required="required" placeholder="Email"/>
@@ -32,7 +32,7 @@
                                     </span>
                         @endif
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>Phone No.</label>
                         <input type="tel" name="ccp_phone" value="{{(old('ccp_phone')?old('ccp_phone'):(isset($orderDetails) && $orderDetails->user_phone?$orderDetails->user_phone:''))}}"
                                required="required" placeholder="Phone No."/>
@@ -40,6 +40,22 @@
                             <span class="help-block err">
                                         <strong>{{ $errors->first('ccp_phone') }}</strong>
                                     </span>
+                        @endif
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="not-req">Where did you hear about us ...?</label>
+                        <select name="here_abt_us" id="here_abt_us">
+                            <option value="">Select</option>
+                            <option value="Google" {{(old('here_abt_us') == 'Google' ? "selected=selected":(isset($orderDetails) && $orderDetails->here_abt_us == 'Google'?'selected="selected"':''))}}>Google</option>
+                            <option value="Family/Friend" {{(old('here_abt_us') == 'Family/Friend' ? "selected=selected":(isset($orderDetails) && $orderDetails->here_abt_us == 'Family/Friend'?'selected="selected"':''))}}>Family/Friend</option>
+                            <option value="Facebook" {{(old('here_abt_us') == 'Facebook' ? "selected=selected":(isset($orderDetails) && $orderDetails->here_abt_us == 'Facebook'?'selected="selected"':''))}}>Facebook</option>
+                            <option value="Instagram" {{(old('here_abt_us') == 'Instagram' ? "selected=selected":(isset($orderDetails) && $orderDetails->here_abt_us == 'Instagram'?'selected="selected"':''))}}>Instagram</option>
+                            <option value="Other" {{(old('here_abt_us') == 'Other' ? "selected=selected":(isset($orderDetails) && $orderDetails->here_abt_us == 'Other'?'selected="selected"':''))}}>Other</option>
+                        </select>
+                        @if ($errors->has('here_abt_us'))
+                            <span class="help-block err">
+                                    <strong>{{ $errors->first('here_abt_us') }}</strong>
+                                </span>
                         @endif
                     </div>
                 </div>

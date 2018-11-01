@@ -117,7 +117,8 @@ class ClubCourier extends Controller
             'ccd_suburb' => 'required | min:1 | max:150',
             'ccd_postcode' => 'required | min:1 | max:10',
             'bagTitle1' => 'required',
-            'bagType1' => 'required'
+            'bagType1' => 'required',
+            'here_abt_us' => 'min:1 | max:100'
         );
 
         $validator = $this->getValidationFactory()->make($request->all(), $rules);
@@ -288,7 +289,8 @@ class ClubCourier extends Controller
                 'outgoing_shipment' => (!empty($allInput['outshipment'])?$allInput['outshipment']:''),
                 'return_shipment' => ($allInput['shipOpt'] == 2?$allInput['returnshipment']:0),
                 'transit_days_out' => $transitOut,
-                'transit_days_ret' => $transitret
+                'transit_days_out' => $transitOut,
+                'here_abt_us' => $allInput['here_abt_us']
             ];
             if(isset($orderId) && $orderId>0){
                 $res = DB::table($this->DBTables['CCOrders'])

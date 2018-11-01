@@ -9,29 +9,28 @@
     </section>
     <section id="details">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12 submit-btn">
-                    <button type="button" class="stripe-button-el" onclick="gotopage('{{url('clubcourier/booking')}}')">
-                        <span style="display: block; min-height: 30px;">Modify</span></button>
-                </div>
-            </div>
             <form method="POST" action="" disabled name="addShipping" autocomplete="off">
             <h3><span>Personal Details</span></h3>
                 <div class="row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>Name</label>
                         <input type="text" name="ccp_name" value="{{$orderDetails->user_name}}"
                                required="required" disabled placeholder="Name"/>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>Email Address</label>
                         <input type="email" name="ccp_email" value="{{$orderDetails->user_email}}"
                                required="required" disabled placeholder="Email"/>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-3">
                         <label>Phone No.</label>
                         <input type="tel" name="ccp_phone" value="{{$orderDetails->user_phone}}"
                                required="required" disabled placeholder="Phone No."/>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="not-req">Where did you hear about us ...?</label>
+                        <input type="text" name="here_abt_us" disabled id="here_abt_us" value="{{(!empty($orderDetails->here_abt_us)?$orderDetails->here_abt_us:'N/A')}}"
+                               placeholder="Here about us"/>
                     </div>
                 </div>
                 <h3><span>Pickup Details</span></h3>
@@ -289,22 +288,22 @@
                         @endif
                 </div>
                 <div class="row">
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-3">
                         <label>Voucher Code</label>
                         <input type="text" name="voucher_code" disabled id="voucher_code" value="{{$orderDetails->offer_Code}}"
                           placeholder="Voucher Code"/>
                     </div>
-                    <div class="form-group col-sm-2">
+                    <div class="form-group col-sm-3">
                         <label>Voucher Discount</label>
                         <input type="text" name="voucher_discount" disabled id="voucher_discount" value="{{(number_format($orderDetails->offer_amnt,2,'.',''))}}"
                                placeholder="Voucher Discount"/>
                     </div>
-                    <div class="form-group col-sm-2">
+                    <div class="form-group col-sm-3">
                         <label>Multiset Discount</label>
                         <input type="text" name="multiset_discount" disabled id="multiset_discount" value="{{(number_format($orderDetails->multiset_discount,2,'.',''))}}"
                                placeholder="Multiset Discount"/>
                     </div>
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-3">
                         <label>Total amount to be paid</label>
                         <input type="text" name="total-amount" disabled id="total-amount" value="${{(number_format($orderDetails->sub_total_amnt,2,'.',''))}} - ${{(number_format($orderDetails->offer_amnt,2,'.',''))}} - ${{(number_format($orderDetails->multiset_discount,2,'.',''))}} = ${{(number_format($orderDetails->sub_total_amnt - $orderDetails->offer_amnt - $orderDetails->multiset_discount,2,'.',''))}}"
                                placeholder="Total Amount"/>
@@ -314,9 +313,16 @@
                     <input type="submit" disabled value="Order Now"/>
                 </div>--}}
             </form>
-            <div class="submit-btn">
+            <div class="submit-btn" id="cc-stripe-pay-btn">
                 {{--<input type="button" onclick="showPayOpt('{{$paymentSwitch}}');" value="Confirm and Proceed to Payment"/>--}}
                 {{--<input type="button" onclick="showPayOptStripe();" value="Confirm and Proceed to Payment"/>--}}
+
+                <div class="row">
+                    <div class="col-md-9">
+                        <button type="button" class="stripe-button-el" onclick="gotopage('{{url('clubcourier/booking')}}')">
+                            <span style="display: block; min-height: 30px;">Modify</span></button>
+                    </div>
+                    <div class="col-md-3">
                 <?php
                 $log  = "Offer discount: ".($orderDetails->offer_amnt).PHP_EOL.
                     "order_reference: ".($orderDetails->order_reference_id).PHP_EOL.
@@ -347,6 +353,8 @@
                     <input type="hidden" name="order_reference_id" value="{{$orderDetails->order_reference_id}}" />
                     <input type="hidden" name="description" value="TSS Club Courier booking Charges." />
                 </form>
+                </div>
+                </div>
             </div>
         </div>
     </section>

@@ -539,7 +539,7 @@ class CutomerOrderController extends Controller
             $request->dropoffState = $request->delvr_state_id;
 
                 $updateOrderAmount['shipping_amnt'] = ($this->hire->calculateshipping($request)>0?$this->hire->calculateshipping($request):0)*$setCount;
-                $orderTotalAmount = $orderTotalAmount + $request->shipping_amnt;
+                $orderTotalAmount = $orderTotalAmount + $updateOrderAmount['shipping_amnt'];
                 $updateOrderAmount['total_amnt'] = $orderTotalAmount - $offerAmount - $tssDiscountAmount;
 
             DB::table($DBTables['Pre_Orders'])

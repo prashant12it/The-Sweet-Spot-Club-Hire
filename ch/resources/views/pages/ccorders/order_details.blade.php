@@ -49,6 +49,10 @@
                                             <strong>Customer Name : </strong>{{$orderDetails->user_name}}<br/>
                                             <strong>Customer Email : </strong>{{$orderDetails->user_email}}<br/>
                                             <strong>Customer Phone No. : </strong>{{$orderDetails->user_phone}}<br/>
+                                            @if(!empty($orderDetails->here_abt_us))
+                                                <strong>Where did you hear about us ? : </strong>
+                                                {{$orderDetails->here_abt_us}}<br/>
+                                            @endif
                                         </td>
                                     </tr>
                                     </tbody>
@@ -184,9 +188,10 @@
                                 </table>
 
                                 @if(!empty($orderDetails->return_region))
-                                    <h2>Retuen Shipping</h2>
+                                    <h2 style="margin-left: 10px">Retuen Shipping</h2>
                                     <table class="table order-details-table">
                                         <thead>
+                                        <tr><th colspan="2"></th> </tr>
                                         <tr>
                                             <th width="50%">Pickup Details</th>
                                             <th width="50%">Destination Details</th>

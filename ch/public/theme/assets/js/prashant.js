@@ -907,6 +907,7 @@ function  calculateShipping(setcount) {
         data: jdata,
         success: function (html) {
             var shippingPrice = parseFloat(html)*setcount;
+            $('#handling').val(shippingPrice);
             if(shippingPrice > 0){
                 shippingPrice = shippingPrice.toFixed(2);
                 var SubTotal = $('#subtotal').val();
@@ -915,7 +916,6 @@ function  calculateShipping(setcount) {
                 var Insurance = $('#insu').val();
                 var OfferCodeDis = $('#offcodedis').val();
                 $('#handling-price').html('$'+shippingPrice);
-                $('#handling').val(shippingPrice);
                 var HandlingVal = $('#handling').val();
                 var TotalPrice = $('#totalprice').val();
                 TotalPrice = parseFloat(SubTotal)+parseFloat(Insurance)+parseFloat(HandlingVal)-parseFloat(multisetDis)-parseFloat(OfferCodeDis)-parseFloat(partnerDis);
