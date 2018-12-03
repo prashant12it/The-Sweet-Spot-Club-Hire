@@ -478,8 +478,8 @@ class CutomerOrderController extends Controller
 //			$proAmountWithOffer = ( $totalProductAmount - $offerAmount );
 
             $proAmountWithNewsLetterDisc = ($totalProductAmount - $newsLetterPrice);
-            $totalDiscountAmount = $proAmountWithNewsLetterDisc * $offerPercentage * 0.01;
-            $proAmountWithNewsLetterDisc = ($proAmountWithNewsLetterDisc - ($totalDiscountAmount));
+            /*$totalDiscountAmount = $proAmountWithNewsLetterDisc * $offerPercentage * 0.01;
+            $proAmountWithNewsLetterDisc = ($proAmountWithNewsLetterDisc - ($totalDiscountAmount));*/
             $orderTotalAmount = $proAmountWithNewsLetterDisc + $insuranceAmount + $shippingAmount;
 
             if (count($orderDetails) > 0) {

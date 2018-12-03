@@ -8,9 +8,9 @@ function addAnotherBag(){
     var addhtml = '<div class="row" id="bag'+newBagCount+'"><div class="form-group col-sm-5"><label>Bag title</label>'+
     '<input type="text" readonly name="bagTitle'+newBagCount+'" value="Bag '+newBagCount+'" placeholder="Bag title"/></div>'+
     '<div class="form-group col-sm-5"><label>Bag type/size</label><select name="bagType'+newBagCount+'">'+
-        '<option value="3">Small bag (30x30x123cm)</option>'+
-        '<option value="1">Standard bag (30x35x123cm)</option>'+
-    '<option value="2">Large bag (35x40x123cm)</option>'+
+        '<option value="3">Small Bag i.e. stand bag (30 x 30 x 123cm)</option>'+
+        '<option value="1">Standard Bag i.e. cart bag (30 x 35 x 123cm)</option>'+
+    '<option value="2">Large Bag i.e. staff bag (35 x 40 x 123cm)</option>'+
     '</select></div><div class="form-group col-sm-2">'+
         '<button class="btn btn-danger frontend-primary-btn col-md-8 btn-with-label" type="button" onclick="removeBag('+newBagCount+')">Remove bag</button>'+
     '</div></div>';
@@ -47,6 +47,8 @@ function returnShip() {
 
 function samePickupAddress() {
     var startDate = new Date();
+    var PlaceVal = $("input[name='place-dropoff']:checked").val();
+    $("input[name='place-ret-pickup'][value='"+PlaceVal+"']").prop('checked',true);
     if($('#is_same_pickup_addrs').is(':checked')){
         $('#retccp_pickup_region').val($('#ccd_dropoff_region').val());
         $('#retccp_company_name').val($('#ccd_company_name').val());
@@ -60,6 +62,7 @@ function samePickupAddress() {
         $('#retfromDate').datepicker().children('input').val(startDate);
         calculateTransitDays(2);
     }else{
+        $('.place-ret-pickup').prop('checked',false);
         $('#retccp_pickup_region').val('');
         $('#retccp_company_name').val('');
         $('#retccp_contact_name').val('');
@@ -71,11 +74,31 @@ function samePickupAddress() {
     }
 }
 
+function checkPlace(placeType,ele) {
+    $('.place-'+placeType).prop('checked',false);
+    var selectedOptIndex = $('.place-'+placeType).index(ele);
+    $(ele).prop('checked',true);
+    if(placeType == 'pickup' && $('#is_same_destination_addrs').is(':checked')){
+        $('.place-ret-dropoff').prop('checked',false);
+        $('.place-ret-dropoff').eq(selectedOptIndex).prop('checked',true);
+    }else if(placeType == 'dropoff' && $('#is_same_pickup_addrs').is(':checked')){
+        $('.place-ret-pickup').prop('checked',false);
+        $('.place-ret-pickup').eq(selectedOptIndex).prop('checked',true);
+    }
+    if($(ele).val() == '4'){
+        $('#infomodal .modal-title').html('Info');
+        $('#info-msg').html('All residential deliveries require signature on delivery to ensure insurance is not waived.');
+        $('#infomodal').modal('show');
+    }
+}
+
 function showPickupInfo() {
     $('#pickupInfo').modal('show');
 }
 
 function sameDestinationAddress() {
+    var PlaceVal = $("input[name='place-pickup']:checked").val();
+    $("input[name='place-ret-dropoff'][value='"+PlaceVal+"']").prop('checked',true);
     if($('#is_same_destination_addrs').is(':checked')){
         $('#retccd_dropoff_region').val($('#ccp_pickup_region').val());
         $('#retccd_company_name').val($('#ccp_company_name').val());
@@ -86,6 +109,7 @@ function sameDestinationAddress() {
         $('#retccd_postcode').val($('#ccp_postcode').val());
         calculateTransitDays(2);
     }else{
+        $('.place-ret-dropoff').prop('checked',false);
         $('#retccd_dropoff_region').val('');
         $('#retccd_company_name').val('');
         $('#retccd_contact_name').val('');
@@ -118,9 +142,9 @@ function getVoucherCodeDiscount() {
                         $('#voucher-message').removeClass('alert-danger');
                         $('#voucher-message').addClass('alert-success');
                         if(html[0]['offer_percntg']>0){
-                            $('#voucher-message').html('Hooray! You will receive a discount of '+html[0]['offer_percntg']+'% on total amount.');
+                            $('#voucher-message').html('Hooray! You will receive a discount of '+html[0]['offer_percntg']+'% off your orders.');
                         }else{
-                            $('#voucher-message').html('Hooray! You will receive a flat discount of $'+html[0]['offer_amnt']+' on total amount.');
+                            $('#voucher-message').html('Hooray! You will receive a flat discount of $'+html[0]['offer_amnt']+' off your orders.');
                         }
                     } else {
                         $('#voucher-message').removeClass('alert-success');

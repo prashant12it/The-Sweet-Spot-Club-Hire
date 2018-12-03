@@ -507,8 +507,11 @@ $request->fromDate = $this->formatDates($request->fromDate);
 
     public function getAvailChildProds($parentProdId, $fromDate, $toDate, $extendedDays, $defaultFilterArr,$orderedProdsArr=array(),$selectedFilter = 0)
     {
+//        echo $parentProdId.'---'.$extendedDays.'<br />';
+//        dd($defaultFilterArr);
         $availableProdsArr = array();
         $getChildProdsArr = $this->getChildProducts($parentProdId);
+
         if (!empty($getChildProdsArr)) {
             /*For handicap*/
             if (empty($defaultFilterArr)) {
@@ -538,7 +541,14 @@ $request->fromDate = $this->formatDates($request->fromDate);
 //            in_array($childArr->id, $HandicapAttribArr)&&
             foreach ($getChildProdsArr as $childArr) {
                 if (in_array($childArr->id, $FlexAttribArr) && in_array($childArr->id, $HandAttribArr) && in_array($childArr->id, $ShaftAttribArr) && in_array($childArr->id, $GenderAttribArr) && !in_array($childArr->id, $addedProdArr)) {
+
                     $CheckProdArr = $this->checkChildForBooking($childArr->id, $fromDate, $toDate, $extendedDays);
+                    /*if($parentProdId == '123'){
+                        echo $childArr->id.' --- '.$fromDate.' ---- '.$toDate.' ---- '.$extendedDays;
+                        echo '<br />';
+                        print_r($CheckProdArr);
+                        echo '<br />';
+                    }*/
                     if (empty($CheckProdArr[0])) {
                         $ArrtibSetArr = $this->getProdAttribsByProdId($childArr->id);
                         if(count($ArrtibSetArr)>0){
@@ -595,7 +605,9 @@ $request->fromDate = $this->formatDates($request->fromDate);
 
     public function checkChildForBooking($childProdId, $fromDate, $toDate, $extendedDays)
     {
-        $CheckProdArr = DB::table($this->DBTables['Booked_Products'] . ' as BP')
+        $servicingDays = Config::get('constants.stateServicingDays');
+        $CleaningDays = 0;
+        /*$CheckProdArr = DB::table($this->DBTables['Booked_Products'] . ' as BP')
             ->join($this->DBTables['Products'] . ' as P', 'BP.product_id', '=', 'P.id')
             ->where('P.disable', '=', 0)
             ->where('BP.product_id', '=', (int)$childProdId)
@@ -604,7 +616,37 @@ $request->fromDate = $this->formatDates($request->fromDate);
                 date('Y-m-d', strtotime($toDate . ' -' . $extendedDays . ' days'))
             ])
             ->select('P.*', 'BP.dt_booked_from', 'BP.dt_booked_upto', 'BP.order_id')
+            ->get();*/
+
+        $CheckProdArr = DB::table($this->DBTables['Booked_Products'] . ' as BP')
+            ->join($this->DBTables['Products'] . ' as P', 'BP.product_id', '=', 'P.id')
+            ->where('P.disable', '=', 0)
+            ->where('BP.product_id', '=', (int)$childProdId)
+            ->select('P.*', 'BP.dt_booked_from', 'BP.dt_booked_upto', 'BP.order_id')
             ->get();
+
+        if(count($CheckProdArr)>0){
+            $countValid = 0;
+            foreach ($CheckProdArr as $prods){
+                $OrderDet = $this->getOrderDetails($prods->order_id);
+                if(count($OrderDet)>0){
+                    $CleaningDays = $servicingDays[$OrderDet[0]->state_id];
+                }
+                if(strtotime($prods->dt_booked_upto . ' +' . $CleaningDays . ' days') < strtotime($fromDate)){
+                    $countValid++;
+                }elseif (strtotime($prods->dt_booked_from) > strtotime($toDate.' +'.$extendedDays.' days')){
+                    $countValid++;
+                }
+            }
+            if($countValid == count($CheckProdArr)){
+                return false;
+            }else{
+                return $CheckProdArr;
+            }
+        }else{
+            return false;
+        }
+
         /*if (empty($CheckProdArr[0])) {
             $ArrtibSetArr = $this->getProdAttribsByProdId($childArr->id);
             if(count($ArrtibSetArr)>0){
@@ -616,7 +658,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
             }
             array_push($availableProdsArr, $childArr);
         }*/
-        return $CheckProdArr;
+//        return $CheckProdArr;
     }
     public function checkChildForBookingSec($childProdId, $fromDate, $toDate, $extendedDays)
     {

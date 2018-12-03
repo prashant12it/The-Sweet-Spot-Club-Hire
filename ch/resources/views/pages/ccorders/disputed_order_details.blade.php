@@ -142,8 +142,8 @@
                                     <table class="table order-details-table">
                                         <thead>
                                         <tr>
-                                            <th width="50%">Pickup Details</th>
-                                            <th width="50%">Destination Details</th>
+                                            <th width="50%">Pickup Details: {{($orderDetails->pickup_place == 1?'Business':($orderDetails->pickup_place == 2?'Hotel/Resort':($orderDetails->pickup_place == 3?'Golf Course':($orderDetails->pickup_place == 4?'Residential':''))))}}</th>
+                                            <th width="50%">Destination Details: {{($orderDetails->destination_place == 1?'Business':($orderDetails->destination_place == 2?'Hotel/Resort':($orderDetails->destination_place == 3?'Golf Course':($orderDetails->destination_place == 4?'Residential':''))))}}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -178,8 +178,8 @@
                                         <table class="table order-details-table">
                                             <thead>
                                             <tr>
-                                                <th width="50%">Pickup Details</th>
-                                                <th width="50%">Destination Details</th>
+                                                <th width="50%">Pickup Details: {{($orderDetails->return_place == 1?'Business':($orderDetails->return_place == 2?'Hotel/Resort':($orderDetails->return_place == 3?'Golf Course':($orderDetails->return_place == 4?'Residential':''))))}}</th>
+                                                <th width="50%">Destination Details: {{($orderDetails->return_d_place == 1?'Business':($orderDetails->return_d_place == 2?'Hotel/Resort':($orderDetails->return_d_place == 3?'Golf Course':($orderDetails->return_d_place == 4?'Residential':''))))}}</th>
                                             </tr>
                                             </thead>
                                             <tbody>

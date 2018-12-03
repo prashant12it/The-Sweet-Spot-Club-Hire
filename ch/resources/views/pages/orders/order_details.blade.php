@@ -196,7 +196,7 @@
                                                 @endif
                                             </td>
                                             <td width="50%">
-                                                <strong>Sub Total Amount($) : </strong>{{number_format($orderDetailsData->sub_total_amnt,2)}}<br/><br/>
+                                                <strong>Sub Total Amount($) : </strong>{{number_format($orderDetailsData->sub_total_amnt,2)}} (Exclusive of shipping amount)<br/><br/>
                                                 @if(trim($orderDetailsData->offer_name)!= '')
                                                 <strong>Offer : </strong>{{$orderDetailsData->offer_name}}<br/><br/>
                                                 <strong>Offer Code: </strong>{{$orderDetailsData->offer_Code}}<br/><br/>

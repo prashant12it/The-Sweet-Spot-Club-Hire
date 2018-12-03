@@ -42,6 +42,20 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="form-group col-md-3">
+                        <input class="check-box place-pickup" disabled type="checkbox" {{ ($orderDetails->pickup_place == 1 ? 'checked':'') }} name="place-pickup" value="1" >Business
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input class="check-box place-pickup" disabled type="checkbox" {{ ($orderDetails->pickup_place == 2 ? 'checked':'') }} name="place-pickup" value="2" >Hotel / Resort
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input class="check-box place-pickup" disabled type="checkbox" {{ ($orderDetails->pickup_place == 3 ? 'checked':'') }} name="place-pickup" value="3" >Golf Course
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input class="check-box place-pickup" disabled type="checkbox" {{ ($orderDetails->pickup_place == 4 ? 'checked':'') }} name="place-pickup" value="4" >Residential
+                    </div>
+                </div>
+                <div class="row">
                     <div class="form-group col-md-4">
                         <label>Company Name</label>
                         <input type="text" name="ccp_company_name" disabled id="ccp_company_name" value="{{$orderDetails->pickup_company_name}}" placeholder="Company Name"/>
@@ -92,6 +106,20 @@
                         <label>Region of drop off</label>
                         <input type="text" name="ccd_dropoff_region" value="{{$orderDetails->destination_region}}"
                                required="required" disabled placeholder="Drop off region"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <input class="check-box place-dropoff" disabled type="checkbox" {{ ($orderDetails->destination_place == 1 ? 'checked':'') }} name="place-dropoff" value="1" >Business
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input class="check-box place-dropoff" disabled type="checkbox" {{ ($orderDetails->destination_place == 2 ? 'checked':'') }} name="place-dropoff" value="2" >Hotel / Resort
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input class="check-box place-dropoff" disabled type="checkbox" {{ ($orderDetails->destination_place == 3 ? 'checked':'') }} name="place-dropoff" value="3" >Golf Course
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input class="check-box place-dropoff" disabled type="checkbox" {{ ($orderDetails->destination_place == 4 ? 'checked':'') }} name="place-dropoff" value="4" >Residential
                     </div>
                 </div>
                 <div class="row">
@@ -165,6 +193,20 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="form-group col-md-3">
+                            <input class="check-box place-ret-pickup" disabled type="checkbox" {{ ($orderDetails->return_place == 1 ? 'checked':'') }} name="place-ret-pickup" value="1" >Business
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input class="check-box place-ret-pickup" disabled type="checkbox" {{ ($orderDetails->return_place == 2 ? 'checked':'') }} name="place-ret-pickup" value="2" >Hotel / Resort
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input class="check-box place-ret-pickup" disabled type="checkbox" {{ ($orderDetails->return_place == 3 ? 'checked':'') }} name="place-ret-pickup" value="3" >Golf Course
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input class="check-box place-ret-pickup" disabled type="checkbox" {{ ($orderDetails->return_place == 4 ? 'checked':'') }} name="place-ret-pickup" value="4" >Residential
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="form-group col-md-4">
                             <label>Company Name</label>
                             <input type="text" disabled name="retccp_company_name" id="retccp_company_name" value="{{$orderDetails->return_company_name}}" placeholder="Company Name"/>
@@ -214,6 +256,20 @@
                             <label>Region of drop off</label>
                             <input type="text" name="retccd_dropoff_region" value="{{$orderDetails->return_d_region}}"
                                    required="required" disabled placeholder="Drop off region"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <input class="check-box place-ret-dropoff" disabled type="checkbox" {{ ($orderDetails->return_d_place == 1 ? 'checked':'') }} name="place-ret-dropoff" value="1" >Business
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input class="check-box place-ret-dropoff" disabled type="checkbox" {{ ($orderDetails->return_d_place == 2 ? 'checked':'') }} name="place-ret-dropoff" value="2" >Hotel / Resort
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input class="check-box place-ret-dropoff" disabled type="checkbox" {{ ($orderDetails->return_d_place == 3 ? 'checked':'') }} name="place-ret-dropoff" value="3" >Golf Course
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input class="check-box place-ret-dropoff" disabled type="checkbox" {{ ($orderDetails->return_d_place == 4 ? 'checked':'') }} name="place-ret-dropoff" value="4" >Residential
                         </div>
                     </div>
                     <div class="row">

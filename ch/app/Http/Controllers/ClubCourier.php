@@ -118,6 +118,8 @@ class ClubCourier extends Controller
             'ccd_postcode' => 'required | min:1 | max:10',
             'bagTitle1' => 'required',
             'bagType1' => 'required',
+            'place-pickup' => 'required',
+            'place-dropoff' => 'required',
             'here_abt_us' => 'min:1 | max:100'
         );
 
@@ -260,6 +262,7 @@ class ClubCourier extends Controller
                 'pickup_address' => $allInput['ccp_address'],
                 'pickup_suburb' => $allInput['ccp_suburb'],
                 'pickup_postal_code' => $allInput['ccp_postcode'],
+                'pickup_place' => $allInput['place-pickup'],
                 'pickup_delivery_note' => $allInput['ccp_collection_notes'],
                 'destination_region' => $destinationRegion,
                 'destination_company_name' => $allInput['ccd_company_name'],
@@ -268,6 +271,7 @@ class ClubCourier extends Controller
                 'destination_address' => $allInput['ccd_address'],
                 'destination_suburb' => $allInput['ccd_suburb'],
                 'destination_postal_code' => $allInput['ccd_postcode'],
+                'destination_place' => $allInput['place-dropoff'],
                 'destination_note' => $allInput['ccd_collection_notes'],
                 'return_region' => $ReturnPickupRegion,
                 'return_date' => (!empty($allInput['retccp_date'])?$this->formatDates($allInput['retccp_date']):''),
@@ -277,6 +281,7 @@ class ClubCourier extends Controller
                 'return_address' => (!empty($allInput['retccp_address'])?$allInput['retccp_address']:''),
                 'return_suburb' => (!empty($allInput['retccp_suburb'])?$allInput['retccp_suburb']:''),
                 'return_postal_code' => (!empty($allInput['retccp_postcode'])?$allInput['retccp_postcode']:''),
+                'return_place' => (!empty($allInput['place-ret-pickup'])?$allInput['place-ret-pickup']:''),
                 'return_collection_note' => (!empty($allInput['retccp_collection_notes'])?$allInput['retccp_collection_notes']:''),
                 'return_d_region' => $ReturnDestinationRegion,
                 'return_d_company_name' => (!empty($allInput['retccd_company_name'])?$allInput['retccd_company_name']:''),
@@ -285,10 +290,10 @@ class ClubCourier extends Controller
                 'return_d_address' => (!empty($allInput['retccd_address'])?$allInput['retccd_address']:''),
                 'return_d_suburb' => (!empty($allInput['retccd_suburb'])?$allInput['retccd_suburb']:''),
                 'return_d_postal_code' => (!empty($allInput['retccd_postcode'])?$allInput['retccd_postcode']:''),
+                'return_d_place' => (!empty($allInput['place-ret-dropoff'])?$allInput['place-ret-dropoff']:''),
                 'return_d_note' => (!empty($allInput['retccd_collection_notes'])?$allInput['retccd_collection_notes']:''),
                 'outgoing_shipment' => (!empty($allInput['outshipment'])?$allInput['outshipment']:''),
                 'return_shipment' => ($allInput['shipOpt'] == 2?$allInput['returnshipment']:0),
-                'transit_days_out' => $transitOut,
                 'transit_days_out' => $transitOut,
                 'here_abt_us' => $allInput['here_abt_us']
             ];
@@ -319,7 +324,7 @@ class ClubCourier extends Controller
                             if ($allInput['bagType' . $i] == 1) {
                                 $orderSProdId = DB::table($this->DBTables['CCOrders_Products'])->insertGetId(
                                     ['order_id' => $orderId,
-                                        'product_name'=>'Standard bag (30x35x123cm)',
+                                        'product_name'=>'Standard Bag i.e. cart bag (30 x 35 x 123cm)',
                                         'bag_title'=>$allInput['bagTitle' . $i],
                                         'quantity'=>1,
                                         'sub_total_amnt_out'=>$outShipArr[0]->standard_bag_cost,
@@ -335,7 +340,7 @@ class ClubCourier extends Controller
 
                                 $orderLProdId = DB::table($this->DBTables['CCOrders_Products'])->insertGetId(
                                     ['order_id' => $orderId,
-                                        'product_name'=>'Large bag (35x40x123cm)',
+                                        'product_name'=>'Large Bag i.e. staff bag (35 x 40 x 123cm)',
                                         'bag_title'=>$allInput['bagTitle' . $i],
                                         'quantity'=>1,
                                         'sub_total_amnt_out'=>$outShipArr[0]->large_bag_cost,
@@ -351,7 +356,7 @@ class ClubCourier extends Controller
 
                                 $orderLProdId = DB::table($this->DBTables['CCOrders_Products'])->insertGetId(
                                     ['order_id' => $orderId,
-                                        'product_name'=>'Small bag (30x30x123cm)',
+                                        'product_name'=>'Small Bag i.e. stand bag (30 x 30 x 123cm)',
                                         'bag_title'=>$allInput['bagTitle' . $i],
                                         'quantity'=>1,
                                         'sub_total_amnt_out'=>$outShipArr[0]->small_bag_cost,
