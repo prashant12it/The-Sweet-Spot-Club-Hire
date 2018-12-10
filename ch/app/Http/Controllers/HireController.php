@@ -50,11 +50,9 @@ class HireController extends Controller
         $setCount = 0;
         $showGift = false;
         $AddedProdsArr = array();
-//        if (Auth::guest()) {
             $cartDetailArr = array();
             $insurance = 0;
             $orderrefid = (isset($_COOKIE['order_reference_id']) ? $_COOKIE['order_reference_id'] : null);
-            //$defaultFilterArr = array(55,53,28,58,59);
             $defaultFilterArr = (!empty(session()->get('defaultFilterArr')) ? session()->get('defaultFilterArr') : Config::get('constants.Default_Filter'));
             if ($orderrefid !== null) {
                 session()->put('page1', '1');
@@ -71,7 +69,6 @@ class HireController extends Controller
                     }
                     setcookie('order_reference_id', $orderrefid, time() + (86400 * 10), "/");
                     $cartDetailArr = $this->getCartByRefId($orderrefid, $defaultFilterArr);
-//                    dd($cartDetailArr);
                     $cartDetailArr = $this->getCart($cartDetailArr);
                     $setCount = $this->getCartSetCount($orderrefid);
                     $AddedProdsArr = $this->preOrderProdMapDetails($orderrefid);
@@ -113,7 +110,6 @@ $request->fromDate = $this->formatDates($request->fromDate);
             if ((session()->get('showgift') == '1')) {
                 $showGift = true;
                 $giftProdId = $this->getGiftProds($hireDays);
-//                dd($giftProdId);
                 session()->put('showgift', '0');
             }
             foreach ($AttributesUnsortedArr as $key => $Attributes) {
@@ -172,7 +168,6 @@ $request->fromDate = $this->formatDates($request->fromDate);
 
                 }
             }
-//            dd($AllAvailProdsArr);
             return view('pages.frontend.hire', compact('AllAvailProdsArr', 'TotalUpsellProdsArr', 'AttributesArr', 'AttribOptsArr', 'defaultFilterArr', 'cartDetailArr', 'hireDays', 'insurance', 'showGift', 'giftProdId','setCount','EstimatedShipping'));
 
     }
@@ -184,12 +179,15 @@ $request->fromDate = $this->formatDates($request->fromDate);
             App::setLocale('en');
         }
     }
+
+    //get pre order products details by passing order reference id
     public function preOrderProdMapDetails($orderRefId){
         $ProdsArr = DB::table($this->DBTables['Pre_Orders_Products'])->where('order_reference_id', '=', $orderRefId)->get();
 
         return $ProdsArr;
     }
 
+    //get gift product details on the basis of no. of days for which booking is requested
     public function getGiftProds($hireDays)
     {
         $giftProdId = array();
@@ -210,6 +208,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         array_splice($array, $b, 0, $out);
     }
 
+    //Get booking cart details by passing order reference id, filter array if attribute filter is applicable and extended days if any.
     public function getCartByRefId($orderRefId, $defaultFilterArr = array(),$extDays = 0)
     {
         $cartProdArr = DB::table($this->DBTables['Pre_Orders_Products'])
@@ -316,6 +315,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $parentProdSetArr;
     }
 
+    //get pre order details by passing order reference id
     public function getPreOrderDetails($orderRefId)
     {
         $PreOrderDetailArr = DB::table($this->DBTables['Pre_Orders'])
@@ -325,6 +325,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $PreOrderDetailArr;
     }
 
+    //get order details  by passing order id
     public function getOrderDetails($orderId)
     {
         $OrderDetailArr = DB::table($this->DBTables['Orders'])
@@ -333,6 +334,8 @@ $request->fromDate = $this->formatDates($request->fromDate);
 
         return $OrderDetailArr;
     }
+
+    //return pre order details in json format for ajax calls.
     public function getAjaxPreorderDetails(Request $request){
         $preorderResult = $this->getPreOrderDetails($request->order_reference_id);
         if(count($preorderResult)>0){
@@ -345,6 +348,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         echo json_encode( $responsedata );
     }
 
+    //get parent product(product set) info by passing child product id
     public function getParentProductByChildId($ChildProdId)
     {
         $ParentProdArr = DB::table($this->DBTables['Group_Products'] . ' as GP')
@@ -357,6 +361,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $ParentProdArr;
     }
 
+    //get product attributes by passing product id
     public function getProdAttribsByProdId($prodid)
     {
         $AttribValArr = DB::table($this->DBTables['Products_Attribute_Mapping'] . ' as pam')
@@ -370,6 +375,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $AttribValArr;
     }
 
+    //get count(quantity) of available products of product set for the requested (passed) attribute array
     public function getProdQtyByAttribCount($prodidArr){
         $attribSetsArr = array();
         $prodCount = count($prodidArr);
@@ -426,6 +432,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
 
     }
 
+    //get the quantity of product set added to the cart.
     public function getCartSetCount($orderRefId)
     {
         $SetProds = DB::table($this->DBTables['Pre_Orders_Products'] . ' as po')
@@ -439,6 +446,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $SetProds;
     }
 
+    //get products pricing by no. of hire days for which booking is made.
     public function getProductPriceByHireDays($hireDays)
     {
         $PricingList = Config::get('constants.HireDaysPricing');
@@ -457,6 +465,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $prodPrice;
     }
 
+    //get multiset discount on the basis of no. of sets added to the cart for booking
     public function getMultiSetDiscountedPrice($setsCount, $totalPrice)
     {
         $DiscountList = Config::get('constants.Discount');
@@ -472,6 +481,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $DiscountedPrice;
     }
 
+    //get only (parent)products set
     public function getParentHireProduct($id = 0, $type = 4)
     {
         $ProductsArr = Product::where([
@@ -483,6 +493,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $ProductsArr;
     }
 
+    //get list of products by passing their ids in array.
     public function getListOfProdsByIds($ids)
     {
         $ProductsArr = Product::whereIn('id', $ids)->get();
@@ -490,6 +501,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $ProductsArr;
     }
 
+    //get attributes
     public function getAttributes()
     {
         $AtteibutesArr = DB::table($this->DBTables['Attributes'])->get();
@@ -497,6 +509,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $AtteibutesArr;
     }
 
+    //get the option values of all attributes
     public function getAttributesOptions()
     {
         $attribOptsArr = DB::table($this->DBTables['Attributes_Values'])
@@ -505,6 +518,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $attribOptsArr;
     }
 
+    //get list of available child products of a product set by passing parent product id, requested date range for booking, no of servicing days, filter array and ordered products array.
     public function getAvailChildProds($parentProdId, $fromDate, $toDate, $extendedDays, $defaultFilterArr,$orderedProdsArr=array(),$selectedFilter = 0)
     {
 //        echo $parentProdId.'---'.$extendedDays.'<br />';
@@ -568,7 +582,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
     }
 
     /**
-     * @return mixed
+     *get list of child products of a product set by passing id of product set(parent product)
      */
     public function getChildProducts($parentProdId)
     {
@@ -582,6 +596,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $ChildProdArr;
     }
 
+    //get list of available products set on the basis of requested attributes values
     public function getProdIDByAttributes($attribValId, $attribArr = array())
     {
         if ($attribValId > 0) {
@@ -603,6 +618,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $attribArr;
     }
 
+    //check for the child product available for booking by passing child product id, requested date range for booking, no of servicing days.
     public function checkChildForBooking($childProdId, $fromDate, $toDate, $extendedDays)
     {
         $servicingDays = Config::get('constants.stateServicingDays');
@@ -771,6 +787,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         }
     }
 
+    //filter product on the basis of requested parameters
     public function filterProducts(Request $request)
     {
         $AddedProdsArr = array();
@@ -818,6 +835,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         }
     }
 
+    //get product ids of the cart by passing order reference id
     public function getCartProdIdsByRefId(Request $request)
     {
         $cartProdIdArr = DB::table($this->DBTables['Pre_Orders_Products'])
@@ -828,6 +846,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $cartProdIdArr;
     }
 
+    //get list of all carts(product union of all users cart) product.
     public function getAllOrderedHierableProds($orderRefId)
     {
         $preOrderProdDetArr = DB::table($this->DBTables['Pre_Orders_Products'] . ' as pop')
@@ -841,6 +860,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $preOrderProdDetArr;
     }
 
+    //add or remove insurance on the basis of requested flag.
     public function addremoveInsuranceToOrder(Request $request)
     {
         $InsuranceAmount = Config::get('constants.InsurancePrice');
@@ -879,6 +899,8 @@ $request->fromDate = $this->formatDates($request->fromDate);
 
         return '1';
     }
+
+    //get complete cart details
     public function getCart($cartDetailArr)
     {
         $searchKeyArr = array();
@@ -952,6 +974,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $cartDetailArr;
     }
 
+    //move to insurance page
     public function insurance()
     {
         $this->setLang();
@@ -993,6 +1016,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
 
     }
 
+    //check tss subscription
     public function checkTssSubscription($email)
     {
         $TSSSubscriptionArr = DB::table($this->DBTables['TSS'])
@@ -1002,6 +1026,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $TSSSubscriptionArr;
     }
 
+    //add user email to tss subscription mail list
     public function SubscribeToTss($emailid)
     {
         $res = DB::table($this->DBTables['TSS'])->insert(
@@ -1011,6 +1036,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $res;
     }
 
+    //update invoice no. and transaction id after payment in order table
     public function updateInvoiceNo($invoiceNo, $orderRefId, $transactionId)
     {
         $result = DB::table($this->DBTables['Pre_Orders'])
@@ -1022,6 +1048,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $result;
     }
 
+    // get offer details from offer code and validity date
     public function getOfferDetails($date, $offerCode)
     {
         $result = DB::table($this->DBTables['Offers'])
@@ -1032,6 +1059,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
 
     }
 
+    // get club courier voucher details from voucher code and validity date
     public function getVoucherDetails($date, $offerCode)
     {
         $result = DB::table($this->DBTables['CCVouchers'])
@@ -1042,6 +1070,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
 
     }
 
+    //check whether offer is applied in pre order table by passing offer code and order reference id
     public function checkOfferAppliedInPreOrder($offerCode,$order_reference_id)
     {
         $result = DB::table($this->DBTables['Pre_Orders'])
@@ -1052,6 +1081,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $result;
     }
 
+    //get list of orders by particular offer code
     public function checkOfferAppliedInOrder($offerCode)
     {
         $result = DB::table($this->DBTables['Orders'])
@@ -1060,6 +1090,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $result;
     }
 
+    //update applied offer code in pre order table
     public function updateOfferCode($orderRefID, $offerId, $offerCode, $offerType, $offerPercentage,$flatDiscount)
     {
         $result = DB::table($this->DBTables['Pre_Orders'])
@@ -1101,6 +1132,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
     }*/
     }
 
+    //calculate shipping cost on the basis of passed postcodes(pickup and dropoff) and state ids
     public function calculateshipping(Request $request)
     {
         $pickUp = $request->pickup;
@@ -1140,6 +1172,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $finalShipping;
     }
 
+    //set shipping amount 0 to a particular order
     public function setShippingZeroByOrderRefId($orderRefId, $shippingAmount)
     {
         $result = DB::table($this->DBTables['Pre_Orders'])
@@ -1151,6 +1184,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $result;
     }
 
+    //reset filter array.
     public function clearfilter(Request $request)
     {
         if (!empty(session()->get('defaultFilterArr'))) {
@@ -1167,6 +1201,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         die($sitehtml);
     }
 
+    //get pre order product details by passing product id, order reference id ad amount
     public function getOrderProdDetailWithProdIdAndAmount($orderRefId, $ProdId, $amount)
     {
         $result = DB::table($this->DBTables['Pre_Orders_Products'])
@@ -1179,6 +1214,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $result;
     }
 
+    //get days from date
     public function getDaysFromDates($fromdate, $todate)
     {
         $oneDayTime = 84600;
@@ -1189,6 +1225,7 @@ $request->fromDate = $this->formatDates($request->fromDate);
         return $hire_days;
     }
 
+    //update payment option
     public function updatePaymentOpt(Request $request){
         $result = $this->updatePaymentOptByParameter($request->orderRefId,$request->optval);
         return $result;
@@ -1208,6 +1245,8 @@ $request->fromDate = $this->formatDates($request->fromDate);
       $datenewval = $dateArr[2].'-'.$dateArr[0].'-'.$dateArr[1];
       return $datenewval;
     }
+
+    //courier mail cron job
     public function SendCronMail(){
 
         $mail = new PHPMailer(true);
@@ -1496,6 +1535,8 @@ $request->fromDate = $this->formatDates($request->fromDate);
             }
         }
     }
+
+    //check club courier region exist by passing region name
     public function checkCCregionexist($region){
         $ProdsArr = DB::table($this->DBTables['CCRegion'])
             ->where('region', '=', $region)
@@ -1503,6 +1544,8 @@ $request->fromDate = $this->formatDates($request->fromDate);
             ->get();
         return $ProdsArr;
     }
+
+    //import club courier cost script
     public function importcccost(){
 //        dd();
         $data = Excel::load('../couriers/clubcourierprices.xlsx', function($reader) {

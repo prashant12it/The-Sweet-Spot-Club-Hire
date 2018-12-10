@@ -1328,6 +1328,7 @@ class CutomerOrderController extends Controller
         return $response;
     }
 
+    //get complete product details of a particular product of pre order reference id.
     public function getOrderProductDetJoinWithProd($prodId, $order_reference_id)
     {
         $productAry = DB::table($this->DBTables ['Pre_Orders_Products'])
