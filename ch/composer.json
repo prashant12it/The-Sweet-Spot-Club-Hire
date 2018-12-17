@@ -10,10 +10,11 @@
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "maatwebsite/excel": "~2.1.0",
         "spatie/laravel-newsletter": "^3.6",
+        "stripe/stripe-php": "3.*",
         "unisharp/laravel-ckeditor": "^4.6",
-        "weblee/mandrill": "dev-master",
-        "stripe/stripe-php": "3.*"
+        "weblee/mandrill": "dev-master"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
