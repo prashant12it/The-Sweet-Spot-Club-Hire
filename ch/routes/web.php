@@ -53,7 +53,7 @@ Route::post('/addtocart',['uses'=>'CutomerOrderController@addProductToCart']);
 Route::get('/shipping',['uses'=>'CutomerOrderController@shipping']);
 Route::get('/order-preview',['uses'=>'CutomerOrderController@orderPreview']);
 Route::post('/add_shipping',['uses'=>'CutomerOrderController@updateShippingAndPayment']);
-//Route::get('/thankyou',['uses'=>'CutomerOrderController@thank_you']);
+Route::get('/thankyou',['uses'=>'CutomerOrderController@thank_you']);
 Route::get('manageMailChimp', 'MailChimpController@manageMailChimp');
 Route::post('subscribe',['as'=>'subscribe','uses'=>'MailChimpController@subscribe']);
 Route::post( '/getfooter', [ 'uses' => 'HireController@getSiteFooter' ] );

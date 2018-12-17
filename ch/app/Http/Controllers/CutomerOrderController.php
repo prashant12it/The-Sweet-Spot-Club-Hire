@@ -1328,7 +1328,6 @@ class CutomerOrderController extends Controller
         return $response;
     }
 
-    //get complete product details of a particular product of pre order reference id.
     public function getOrderProductDetJoinWithProd($prodId, $order_reference_id)
     {
         $productAry = DB::table($this->DBTables ['Pre_Orders_Products'])
@@ -1428,6 +1427,8 @@ class CutomerOrderController extends Controller
 
     public function thank_you(Mail $mandrill, Request $request)
     {
+        $error = '';
+        $errorFlag = 0;
         if (isset($request->idStatus) && $request->idStatus == '0') {
             $idOrder = (int)$request->idOrder;
             $updateAry = array();
@@ -1448,7 +1449,7 @@ class CutomerOrderController extends Controller
                 $checkOrderExistArr = $this->checkOrderByPaymentRefId($PaymentRefId);
                 if (count($checkOrderExistArr) > 0) {
                     $checkOrderExist = $checkOrderExistArr[0];
-                    return view('pages.frontend.thankyou', compact('checkOrderExist', 'FirstTime', 'discountErr'));
+                    return view('pages.frontend.thankyou', compact('checkOrderExist', 'FirstTime', 'discountErr','error','errorFlag'));
                 } else {
                     $FirstTime = '1';
                     $xero = App::make('XeroPrivate');
@@ -1509,7 +1510,7 @@ class CutomerOrderController extends Controller
                                         return redirect()->to('/disputed_orders')
                                             ->with('success', 'Order created successfully');
                                     } else {
-                                        return view('pages.frontend.thankyou', compact('checkOrderExist', 'FirstTime', 'discountErr'));
+                                        return view('pages.frontend.thankyou', compact('checkOrderExist', 'FirstTime', 'discountErr','error','errorFlag'));
                                     }
                                 } else {
                                     $line[$i]->setDescription(strip_tags($OrderProducts['prod-description']));
@@ -1831,7 +1832,7 @@ class CutomerOrderController extends Controller
                                 return redirect()->to('/disputed_orders')
                                     ->with('success', 'Order created successfully');
                             } else {
-                                return view('pages.frontend.thankyou', compact('checkOrderExist', 'FirstTime', 'discountErr'));
+                                return view('pages.frontend.thankyou', compact('checkOrderExist', 'FirstTime', 'discountErr','error','errorFlag'));
                             }
                         } else {
                             $response['status'] = "ERROR";
@@ -2308,7 +2309,7 @@ class CutomerOrderController extends Controller
                     "Date Time: ".(date('d-m-Y h:i:s')).PHP_EOL.
                 "-------------------------".PHP_EOL;
             //Save string to log, use FILE_APPEND to append.
-            file_put_contents('../stripe_log_post.txt', $log, FILE_APPEND);
+            file_put_contents('../couriers/stripe_log_post.txt', $log, FILE_APPEND);
 
             $error = 'Access denied. Invalid access to the page.';
             $errorFlag = 2;
